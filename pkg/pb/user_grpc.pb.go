@@ -19,29 +19,35 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_GoogleSignIn_FullMethodName             = "/pb.UserService/GoogleSignIn"
-	UserService_UserSignup_FullMethodName               = "/pb.UserService/UserSignup"
-	UserService_VerifyUser_FullMethodName               = "/pb.UserService/VerifyUser"
-	UserService_UserLogin_FullMethodName                = "/pb.UserService/UserLogin"
-	UserService_ViewProfile_FullMethodName              = "/pb.UserService/ViewProfile"
-	UserService_EditProftle_FullMethodName              = "/pb.UserService/EditProftle"
-	UserService_ChangePassword_FullMethodName           = "/pb.UserService/ChangePassword"
-	UserService_AddAddress_FullMethodName               = "/pb.UserService/AddAddress"
-	UserService_ViewAllAddress_FullMethodName           = "/pb.UserService/ViewAllAddress"
-	UserService_EditAddress_FullMethodName              = "/pb.UserService/EditAddress"
-	UserService_RemoveAddress_FullMethodName            = "/pb.UserService/RemoveAddress"
-	UserService_GetUserGoogleDetailsByID_FullMethodName = "/pb.UserService/GetUserGoogleDetailsByID"
-	UserService_UpdateUserGoogleToken_FullMethodName    = "/pb.UserService/UpdateUserGoogleToken"
-	UserService_BlockUser_FullMethodName                = "/pb.UserService/BlockUser"
-	UserService_UnblockUser_FullMethodName              = "/pb.UserService/UnblockUser"
-	UserService_UserList_FullMethodName                 = "/pb.UserService/UserList"
+	UserService_UserSignup_FullMethodName       = "/pb.UserService/UserSignup"
+	UserService_VerifyUser_FullMethodName       = "/pb.UserService/VerifyUser"
+	UserService_UserLogin_FullMethodName        = "/pb.UserService/UserLogin"
+	UserService_ViewProfile_FullMethodName      = "/pb.UserService/ViewProfile"
+	UserService_EditProftle_FullMethodName      = "/pb.UserService/EditProftle"
+	UserService_ChangePassword_FullMethodName   = "/pb.UserService/ChangePassword"
+	UserService_AddAddress_FullMethodName       = "/pb.UserService/AddAddress"
+	UserService_ViewAllAddress_FullMethodName   = "/pb.UserService/ViewAllAddress"
+	UserService_EditAddress_FullMethodName      = "/pb.UserService/EditAddress"
+	UserService_RemoveAddress_FullMethodName    = "/pb.UserService/RemoveAddress"
+	UserService_BlockUser_FullMethodName        = "/pb.UserService/BlockUser"
+	UserService_UnblockUser_FullMethodName      = "/pb.UserService/UnblockUser"
+	UserService_UserList_FullMethodName         = "/pb.UserService/UserList"
+	UserService_FindMaterialByID_FullMethodName = "/pb.UserService/FindMaterialByID"
+	UserService_FindAllMaterial_FullMethodName  = "/pb.UserService/FindAllMaterial"
+	UserService_AddItem_FullMethodName          = "/pb.UserService/AddItem"
+	UserService_FindItemByID_FullMethodName     = "/pb.UserService/FindItemByID"
+	UserService_FindAllItem_FullMethodName      = "/pb.UserService/FindAllItem"
+	UserService_EditItem_FullMethodName         = "/pb.UserService/EditItem"
+	UserService_RemoveItem_FullMethodName       = "/pb.UserService/RemoveItem"
+	UserService_PlaceOrder_FullMethodName       = "/pb.UserService/PlaceOrder"
+	UserService_OrderHistory_FullMethodName     = "/pb.UserService/OrderHistory"
+	UserService_FindOrder_FullMethodName        = "/pb.UserService/FindOrder"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	GoogleSignIn(ctx context.Context, in *GoogleSignInRequest, opts ...grpc.CallOption) (*UserSignUpResponse, error)
 	UserSignup(ctx context.Context, in *Signup, opts ...grpc.CallOption) (*Response, error)
 	VerifyUser(ctx context.Context, in *OTP, opts ...grpc.CallOption) (*Response, error)
 	UserLogin(ctx context.Context, in *Login, opts ...grpc.CallOption) (*Response, error)
@@ -52,11 +58,22 @@ type UserServiceClient interface {
 	ViewAllAddress(ctx context.Context, in *ID, opts ...grpc.CallOption) (*AddressList, error)
 	EditAddress(ctx context.Context, in *Address, opts ...grpc.CallOption) (*Address, error)
 	RemoveAddress(ctx context.Context, in *IDs, opts ...grpc.CallOption) (*Response, error)
-	GetUserGoogleDetailsByID(ctx context.Context, in *ID, opts ...grpc.CallOption) (*GoogleUserDetails, error)
-	UpdateUserGoogleToken(ctx context.Context, in *UpdateGoogleTokenReq, opts ...grpc.CallOption) (*UpdateGoogleTokenRes, error)
 	BlockUser(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Response, error)
 	UnblockUser(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Response, error)
 	UserList(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserListResponse, error)
+	// Service to handle material management
+	FindMaterialByID(ctx context.Context, in *MaterialID, opts ...grpc.CallOption) (*Material, error)
+	FindAllMaterial(ctx context.Context, in *MaterialNoParams, opts ...grpc.CallOption) (*MaterialList, error)
+	// Service to handle item management
+	AddItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemResponse, error)
+	FindItemByID(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Item, error)
+	FindAllItem(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*ItemList, error)
+	EditItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error)
+	RemoveItem(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*ItemResponse, error)
+	// Service to handle orders
+	PlaceOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*OrderResponse, error)
+	OrderHistory(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*OrderList, error)
+	FindOrder(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Order, error)
 }
 
 type userServiceClient struct {
@@ -65,16 +82,6 @@ type userServiceClient struct {
 
 func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
-}
-
-func (c *userServiceClient) GoogleSignIn(ctx context.Context, in *GoogleSignInRequest, opts ...grpc.CallOption) (*UserSignUpResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserSignUpResponse)
-	err := c.cc.Invoke(ctx, UserService_GoogleSignIn_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *userServiceClient) UserSignup(ctx context.Context, in *Signup, opts ...grpc.CallOption) (*Response, error) {
@@ -177,26 +184,6 @@ func (c *userServiceClient) RemoveAddress(ctx context.Context, in *IDs, opts ...
 	return out, nil
 }
 
-func (c *userServiceClient) GetUserGoogleDetailsByID(ctx context.Context, in *ID, opts ...grpc.CallOption) (*GoogleUserDetails, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GoogleUserDetails)
-	err := c.cc.Invoke(ctx, UserService_GetUserGoogleDetailsByID_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) UpdateUserGoogleToken(ctx context.Context, in *UpdateGoogleTokenReq, opts ...grpc.CallOption) (*UpdateGoogleTokenRes, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateGoogleTokenRes)
-	err := c.cc.Invoke(ctx, UserService_UpdateUserGoogleToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) BlockUser(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Response)
@@ -227,11 +214,110 @@ func (c *userServiceClient) UserList(ctx context.Context, in *NoParam, opts ...g
 	return out, nil
 }
 
+func (c *userServiceClient) FindMaterialByID(ctx context.Context, in *MaterialID, opts ...grpc.CallOption) (*Material, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Material)
+	err := c.cc.Invoke(ctx, UserService_FindMaterialByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) FindAllMaterial(ctx context.Context, in *MaterialNoParams, opts ...grpc.CallOption) (*MaterialList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MaterialList)
+	err := c.cc.Invoke(ctx, UserService_FindAllMaterial_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AddItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ItemResponse)
+	err := c.cc.Invoke(ctx, UserService_AddItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) FindItemByID(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Item, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Item)
+	err := c.cc.Invoke(ctx, UserService_FindItemByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) FindAllItem(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*ItemList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ItemList)
+	err := c.cc.Invoke(ctx, UserService_FindAllItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) EditItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Item)
+	err := c.cc.Invoke(ctx, UserService_EditItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) RemoveItem(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*ItemResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ItemResponse)
+	err := c.cc.Invoke(ctx, UserService_RemoveItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) PlaceOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*OrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrderResponse)
+	err := c.cc.Invoke(ctx, UserService_PlaceOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) OrderHistory(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*OrderList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrderList)
+	err := c.cc.Invoke(ctx, UserService_OrderHistory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) FindOrder(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Order, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Order)
+	err := c.cc.Invoke(ctx, UserService_FindOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 type UserServiceServer interface {
-	GoogleSignIn(context.Context, *GoogleSignInRequest) (*UserSignUpResponse, error)
 	UserSignup(context.Context, *Signup) (*Response, error)
 	VerifyUser(context.Context, *OTP) (*Response, error)
 	UserLogin(context.Context, *Login) (*Response, error)
@@ -242,11 +328,22 @@ type UserServiceServer interface {
 	ViewAllAddress(context.Context, *ID) (*AddressList, error)
 	EditAddress(context.Context, *Address) (*Address, error)
 	RemoveAddress(context.Context, *IDs) (*Response, error)
-	GetUserGoogleDetailsByID(context.Context, *ID) (*GoogleUserDetails, error)
-	UpdateUserGoogleToken(context.Context, *UpdateGoogleTokenReq) (*UpdateGoogleTokenRes, error)
 	BlockUser(context.Context, *ID) (*Response, error)
 	UnblockUser(context.Context, *ID) (*Response, error)
 	UserList(context.Context, *NoParam) (*UserListResponse, error)
+	// Service to handle material management
+	FindMaterialByID(context.Context, *MaterialID) (*Material, error)
+	FindAllMaterial(context.Context, *MaterialNoParams) (*MaterialList, error)
+	// Service to handle item management
+	AddItem(context.Context, *Item) (*ItemResponse, error)
+	FindItemByID(context.Context, *ItemID) (*Item, error)
+	FindAllItem(context.Context, *ItemNoParams) (*ItemList, error)
+	EditItem(context.Context, *Item) (*Item, error)
+	RemoveItem(context.Context, *ItemID) (*ItemResponse, error)
+	// Service to handle orders
+	PlaceOrder(context.Context, *Order) (*OrderResponse, error)
+	OrderHistory(context.Context, *ItemNoParams) (*OrderList, error)
+	FindOrder(context.Context, *ItemID) (*Order, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -257,9 +354,6 @@ type UserServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServiceServer struct{}
 
-func (UnimplementedUserServiceServer) GoogleSignIn(context.Context, *GoogleSignInRequest) (*UserSignUpResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GoogleSignIn not implemented")
-}
 func (UnimplementedUserServiceServer) UserSignup(context.Context, *Signup) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserSignup not implemented")
 }
@@ -290,12 +384,6 @@ func (UnimplementedUserServiceServer) EditAddress(context.Context, *Address) (*A
 func (UnimplementedUserServiceServer) RemoveAddress(context.Context, *IDs) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveAddress not implemented")
 }
-func (UnimplementedUserServiceServer) GetUserGoogleDetailsByID(context.Context, *ID) (*GoogleUserDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserGoogleDetailsByID not implemented")
-}
-func (UnimplementedUserServiceServer) UpdateUserGoogleToken(context.Context, *UpdateGoogleTokenReq) (*UpdateGoogleTokenRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserGoogleToken not implemented")
-}
 func (UnimplementedUserServiceServer) BlockUser(context.Context, *ID) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BlockUser not implemented")
 }
@@ -304,6 +392,36 @@ func (UnimplementedUserServiceServer) UnblockUser(context.Context, *ID) (*Respon
 }
 func (UnimplementedUserServiceServer) UserList(context.Context, *NoParam) (*UserListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserList not implemented")
+}
+func (UnimplementedUserServiceServer) FindMaterialByID(context.Context, *MaterialID) (*Material, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindMaterialByID not implemented")
+}
+func (UnimplementedUserServiceServer) FindAllMaterial(context.Context, *MaterialNoParams) (*MaterialList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAllMaterial not implemented")
+}
+func (UnimplementedUserServiceServer) AddItem(context.Context, *Item) (*ItemResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddItem not implemented")
+}
+func (UnimplementedUserServiceServer) FindItemByID(context.Context, *ItemID) (*Item, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindItemByID not implemented")
+}
+func (UnimplementedUserServiceServer) FindAllItem(context.Context, *ItemNoParams) (*ItemList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAllItem not implemented")
+}
+func (UnimplementedUserServiceServer) EditItem(context.Context, *Item) (*Item, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditItem not implemented")
+}
+func (UnimplementedUserServiceServer) RemoveItem(context.Context, *ItemID) (*ItemResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveItem not implemented")
+}
+func (UnimplementedUserServiceServer) PlaceOrder(context.Context, *Order) (*OrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlaceOrder not implemented")
+}
+func (UnimplementedUserServiceServer) OrderHistory(context.Context, *ItemNoParams) (*OrderList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderHistory not implemented")
+}
+func (UnimplementedUserServiceServer) FindOrder(context.Context, *ItemID) (*Order, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOrder not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -324,24 +442,6 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&UserService_ServiceDesc, srv)
-}
-
-func _UserService_GoogleSignIn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GoogleSignInRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).GoogleSignIn(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_GoogleSignIn_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GoogleSignIn(ctx, req.(*GoogleSignInRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_UserSignup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -524,42 +624,6 @@ func _UserService_RemoveAddress_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_GetUserGoogleDetailsByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).GetUserGoogleDetailsByID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_GetUserGoogleDetailsByID_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetUserGoogleDetailsByID(ctx, req.(*ID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_UpdateUserGoogleToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateGoogleTokenReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).UpdateUserGoogleToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_UpdateUserGoogleToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).UpdateUserGoogleToken(ctx, req.(*UpdateGoogleTokenReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_BlockUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ID)
 	if err := dec(in); err != nil {
@@ -614,6 +678,186 @@ func _UserService_UserList_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_FindMaterialByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MaterialID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindMaterialByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindMaterialByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindMaterialByID(ctx, req.(*MaterialID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_FindAllMaterial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MaterialNoParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindAllMaterial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindAllMaterial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindAllMaterial(ctx, req.(*MaterialNoParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AddItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Item)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_AddItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddItem(ctx, req.(*Item))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_FindItemByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindItemByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindItemByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindItemByID(ctx, req.(*ItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_FindAllItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemNoParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindAllItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindAllItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindAllItem(ctx, req.(*ItemNoParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_EditItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Item)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).EditItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_EditItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).EditItem(ctx, req.(*Item))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_RemoveItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).RemoveItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_RemoveItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).RemoveItem(ctx, req.(*ItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_PlaceOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Order)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).PlaceOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_PlaceOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).PlaceOrder(ctx, req.(*Order))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_OrderHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemNoParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).OrderHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_OrderHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).OrderHistory(ctx, req.(*ItemNoParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_FindOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindOrder(ctx, req.(*ItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -621,10 +865,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.UserService",
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GoogleSignIn",
-			Handler:    _UserService_GoogleSignIn_Handler,
-		},
 		{
 			MethodName: "UserSignup",
 			Handler:    _UserService_UserSignup_Handler,
@@ -666,14 +906,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_RemoveAddress_Handler,
 		},
 		{
-			MethodName: "GetUserGoogleDetailsByID",
-			Handler:    _UserService_GetUserGoogleDetailsByID_Handler,
-		},
-		{
-			MethodName: "UpdateUserGoogleToken",
-			Handler:    _UserService_UpdateUserGoogleToken_Handler,
-		},
-		{
 			MethodName: "BlockUser",
 			Handler:    _UserService_BlockUser_Handler,
 		},
@@ -684,6 +916,46 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserList",
 			Handler:    _UserService_UserList_Handler,
+		},
+		{
+			MethodName: "FindMaterialByID",
+			Handler:    _UserService_FindMaterialByID_Handler,
+		},
+		{
+			MethodName: "FindAllMaterial",
+			Handler:    _UserService_FindAllMaterial_Handler,
+		},
+		{
+			MethodName: "AddItem",
+			Handler:    _UserService_AddItem_Handler,
+		},
+		{
+			MethodName: "FindItemByID",
+			Handler:    _UserService_FindItemByID_Handler,
+		},
+		{
+			MethodName: "FindAllItem",
+			Handler:    _UserService_FindAllItem_Handler,
+		},
+		{
+			MethodName: "EditItem",
+			Handler:    _UserService_EditItem_Handler,
+		},
+		{
+			MethodName: "RemoveItem",
+			Handler:    _UserService_RemoveItem_Handler,
+		},
+		{
+			MethodName: "PlaceOrder",
+			Handler:    _UserService_PlaceOrder_Handler,
+		},
+		{
+			MethodName: "OrderHistory",
+			Handler:    _UserService_OrderHistory_Handler,
+		},
+		{
+			MethodName: "FindOrder",
+			Handler:    _UserService_FindOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

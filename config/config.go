@@ -12,6 +12,7 @@ type Config struct {
 	Sslmode      string `mapstructure:"SSL"`
 	GrpcPort     string `mapstructure:"GRPCUSERPORT"`
 	AdminPort    string `mapstructure:"GRPCADMINPORT"`
+	MateialPort  string `mapstructure:"GRPCMATERIALPORT"`
 	SID          string `mapstructure:"TWILIO_ACCOUNT_SID"`
 	TOKEN        string `mapstructure:"TWILIO_AUTH_TOKEN"`
 	SERVICETOKEN string `mapstructure:"SERVICE_TOKEN"`
