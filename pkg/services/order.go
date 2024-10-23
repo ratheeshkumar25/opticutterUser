@@ -8,18 +8,18 @@ import (
 )
 
 // FindAllOrdersSvc implements interfaces.UserServiceInter.
-func (u *UserService) FindAllOrdersSvc(p *pb.ItemNoParams) (*pb.OrderList, error) {
+func (u *UserService) FindAllOrdersSvc(p *pb.NoParam) (*pb.UserOrderList, error) {
 	ctx := context.Background()
 
 	response, err := u.MaterialClient.OrderHistory(ctx, &materialpb.ItemNoParams{})
 	if err != nil {
 		return nil, err
 	}
-	var orders []*pb.Order
+	var orders []*pb.UserOrder
 
 	for _, order := range response.Orders {
 
-		orders = append(orders, &pb.Order{
+		orders = append(orders, &pb.UserOrder{
 			Order_ID:   uint32(order.Order_ID),
 			User_ID:    uint32(order.User_ID),
 			Item_ID:    uint32(order.Item_ID),
@@ -30,21 +30,21 @@ func (u *UserService) FindAllOrdersSvc(p *pb.ItemNoParams) (*pb.OrderList, error
 		})
 	}
 
-	return &pb.OrderList{
+	return &pb.UserOrderList{
 		Orders: orders,
 	}, nil
 
 }
 
 // FindOrderSvc implements interfaces.UserServiceInter.
-func (u *UserService) FindOrderSvc(p *pb.ItemID) (*pb.Order, error) {
+func (u *UserService) FindOrderSvc(p *pb.UserItemID) (*pb.UserOrder, error) {
 	ctx := context.Background()
 
 	order, err := u.MaterialClient.FindOrder(ctx, &materialpb.ItemID{ID: p.ID})
 	if err != nil {
 		return nil, err
 	}
-	return &pb.Order{
+	return &pb.UserOrder{
 		Order_ID:   uint32(order.Order_ID),
 		User_ID:    uint32(order.User_ID),
 		Item_ID:    uint32(order.Item_ID),
@@ -57,7 +57,7 @@ func (u *UserService) FindOrderSvc(p *pb.ItemID) (*pb.Order, error) {
 }
 
 // PlaceOrderService implements interfaces.UserServiceInter.
-func (u *UserService) PlaceOrderService(p *pb.Order) (*pb.OrderResponse, error) {
+func (u *UserService) PlaceOrderService(p *pb.UserOrder) (*pb.Response, error) {
 
 	ctx := context.Background()
 	// Construct the gRPC request for the MaterialClient
@@ -76,18 +76,18 @@ func (u *UserService) PlaceOrderService(p *pb.Order) (*pb.OrderResponse, error) 
 	// Call the PlaceOrder method on the MaterialClient
 	response, err := u.MaterialClient.PlaceOrder(ctx, materialOrder)
 	if err != nil {
-		return &pb.OrderResponse{
-			Status:  pb.OrderResponse_ERROR,
+		return &pb.Response{
+			Status:  pb.Response_ERROR,
 			Message: "failed to place order",
-			Payload: &pb.OrderResponse_Error{Error: err.Error()},
+			Payload: &pb.Response_Error{Error: err.Error()},
 		}, err
 	}
 
 	// Return the response with the status and message from the Material service
-	return &pb.OrderResponse{
-		Status:  pb.OrderResponse_OK,
+	return &pb.Response{
+		Status:  pb.Response_OK,
 		Message: "Order placed successfully",
-		Payload: &pb.OrderResponse_Data{
+		Payload: &pb.Response_Data{
 			Data: response.GetPayload().(*materialpb.OrderResponse_Data).Data, // Copy the data from material service response
 		},
 	}, nil

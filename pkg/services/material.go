@@ -8,7 +8,7 @@ import (
 )
 
 // FindAllMaterialService implements interfaces.UserServiceInter.
-func (u *UserService) FindAllMaterialService(p *pb.MaterialNoParams) (*pb.MaterialList, error) {
+func (u *UserService) FindAllMaterialService(p *pb.NoParam) (*pb.UserMaterialList, error) {
 	ctx := context.Background()
 
 	result, err := u.MaterialClient.FindAllMaterial(ctx, &materialpb.MaterialNoParams{})
@@ -17,10 +17,10 @@ func (u *UserService) FindAllMaterialService(p *pb.MaterialNoParams) (*pb.Materi
 	}
 
 	// Prepare a slice to hold the  materials
-	var materials []*pb.Material
+	var materials []*pb.UserMaterial
 
 	for _, material := range result.Materials {
-		pbMaterial := &pb.Material{
+		pbMaterial := &pb.UserMaterial{
 			Material_ID:   uint32(material.Material_ID),
 			Material_Name: material.Material_Name,
 			Description:   material.Description,
@@ -30,13 +30,13 @@ func (u *UserService) FindAllMaterialService(p *pb.MaterialNoParams) (*pb.Materi
 		materials = append(materials, pbMaterial)
 	}
 
-	return &pb.MaterialList{
+	return &pb.UserMaterialList{
 		Materials: materials,
 	}, nil
 }
 
 // FindMaterialByIDService implements interfaces.UserServiceInter.
-func (u *UserService) FindMaterialByIDService(p *pb.MaterialID) (*pb.Material, error) {
+func (u *UserService) FindMaterialByIDService(p *pb.UserMaterialID) (*pb.UserMaterial, error) {
 	// Create a new context
 	ctx := context.Background()
 
@@ -49,7 +49,7 @@ func (u *UserService) FindMaterialByIDService(p *pb.MaterialID) (*pb.Material, e
 	}
 
 	// If the material is found, map the response to the pb.Material type
-	pbMaterial := &pb.Material{
+	pbMaterial := &pb.UserMaterial{
 		Material_Name: result.Material_Name,
 		Description:   result.Description,
 		Stock:         int32(result.Stock),

@@ -8,7 +8,7 @@ import (
 	pb "github.com/ratheeshkumar25/opti_cut_userservice/pkg/pb"
 )
 
-func (u *UserService) AddItemService(p *pb.Item) (*pb.ItemResponse, error) {
+func (u *UserService) AddItemService(p *pb.UserItem) (*pb.Response, error) {
 	ctx := context.Background()
 
 	newItem := &materialpb.Item{
@@ -22,24 +22,24 @@ func (u *UserService) AddItemService(p *pb.Item) (*pb.ItemResponse, error) {
 
 	itemID, err := u.MaterialClient.AddItem(ctx, newItem)
 	if err != nil {
-		return &pb.ItemResponse{
-			Status:  pb.ItemResponse_ERROR,
+		return &pb.Response{
+			Status:  pb.Response_ERROR,
 			Message: "Failed to create product",
-			Payload: &pb.ItemResponse_Error{Error: err.Error()},
+			Payload: &pb.Response_Error{Error: err.Error()},
 		}, err
 	}
 	// Return success response with the new item ID
-	return &pb.ItemResponse{
-		Status:  pb.ItemResponse_OK,
+	return &pb.Response{
+		Status:  pb.Response_OK,
 		Message: "Item created successfully",
-		Payload: &pb.ItemResponse_Data{
+		Payload: &pb.Response_Data{
 			Data: fmt.Sprintf("ItemID:%s", itemID),
 		},
 	}, nil
 }
 
 // EditItemService implements interfaces.UserServiceInter.
-func (u *UserService) EditItemService(p *pb.Item) (*pb.Item, error) {
+func (u *UserService) EditItemService(p *pb.UserItem) (*pb.UserItem, error) {
 	ctx := context.Background()
 
 	// Map pb.Item to materialpb.Item for sending to MaterialClient
@@ -62,7 +62,7 @@ func (u *UserService) EditItemService(p *pb.Item) (*pb.Item, error) {
 }
 
 // FindAllItem implements interfaces.UserServiceInter.
-func (u *UserService) FindAllItem(p *pb.ItemNoParams) (*pb.ItemList, error) {
+func (u *UserService) FindAllItem(p *pb.NoParam) (*pb.UserItemList, error) {
 	ctx := context.Background()
 
 	// Call the MaterialClient's FindAllItem method
@@ -72,9 +72,9 @@ func (u *UserService) FindAllItem(p *pb.ItemNoParams) (*pb.ItemList, error) {
 	}
 
 	// Convert materialpb.ItemList to pb.ItemList
-	var items []*pb.Item
+	var items []*pb.UserItem
 	for _, item := range result.Items {
-		pbItem := &pb.Item{
+		pbItem := &pb.UserItem{
 			Item_ID:         item.Item_ID,
 			Item_Name:       item.Item_Name,
 			Length:          item.Length,
@@ -86,13 +86,13 @@ func (u *UserService) FindAllItem(p *pb.ItemNoParams) (*pb.ItemList, error) {
 		items = append(items, pbItem)
 	}
 
-	return &pb.ItemList{
+	return &pb.UserItemList{
 		Items: items,
 	}, nil
 }
 
 // FindItemByID implements interfaces.UserServiceInter.
-func (u *UserService) FindItemByID(p *pb.ItemID) (*pb.Item, error) {
+func (u *UserService) FindItemByID(p *pb.UserItemID) (*pb.UserItem, error) {
 	ctx := context.Background()
 
 	// Call the MaterialClient's FindItemByID method
@@ -102,7 +102,7 @@ func (u *UserService) FindItemByID(p *pb.ItemID) (*pb.Item, error) {
 	}
 
 	// Convert materialpb.Item to pb.Item
-	return &pb.Item{
+	return &pb.UserItem{
 		Item_ID:         item.Item_ID,
 		Item_Name:       item.Item_Name,
 		Length:          item.Length,
@@ -114,21 +114,21 @@ func (u *UserService) FindItemByID(p *pb.ItemID) (*pb.Item, error) {
 }
 
 // RemoveItemService implements interfaces.UserServiceInter.
-func (u *UserService) RemoveItemService(p *pb.ItemID) (*pb.ItemResponse, error) {
+func (u *UserService) RemoveItemService(p *pb.UserItemID) (*pb.Response, error) {
 	ctx := context.Background()
 
 	// Call the MaterialClient's RemoveItem method
 	_, err := u.MaterialClient.RemoveItem(ctx, &materialpb.ItemID{ID: p.ID})
 	if err != nil {
-		return &pb.ItemResponse{
-			Status:  pb.ItemResponse_ERROR,
+		return &pb.Response{
+			Status:  pb.Response_ERROR,
 			Message: "Failed to remove item",
-			Payload: &pb.ItemResponse_Error{Error: err.Error()},
+			Payload: &pb.Response_Error{Error: err.Error()},
 		}, err
 	}
 
-	return &pb.ItemResponse{
-		Status:  pb.ItemResponse_OK,
+	return &pb.Response{
+		Status:  pb.Response_OK,
 		Message: "Item removed successfully",
 	}, nil
 }

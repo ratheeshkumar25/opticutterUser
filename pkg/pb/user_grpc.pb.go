@@ -62,18 +62,18 @@ type UserServiceClient interface {
 	UnblockUser(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Response, error)
 	UserList(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserListResponse, error)
 	// Service to handle material management
-	FindMaterialByID(ctx context.Context, in *MaterialID, opts ...grpc.CallOption) (*Material, error)
-	FindAllMaterial(ctx context.Context, in *MaterialNoParams, opts ...grpc.CallOption) (*MaterialList, error)
+	FindMaterialByID(ctx context.Context, in *UserMaterialID, opts ...grpc.CallOption) (*UserMaterial, error)
+	FindAllMaterial(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserMaterialList, error)
 	// Service to handle item management
-	AddItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemResponse, error)
-	FindItemByID(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Item, error)
-	FindAllItem(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*ItemList, error)
-	EditItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error)
-	RemoveItem(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*ItemResponse, error)
+	AddItem(ctx context.Context, in *UserItem, opts ...grpc.CallOption) (*Response, error)
+	FindItemByID(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserItem, error)
+	FindAllItem(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserItemList, error)
+	EditItem(ctx context.Context, in *UserItem, opts ...grpc.CallOption) (*UserItem, error)
+	RemoveItem(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*Response, error)
 	// Service to handle orders
-	PlaceOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*OrderResponse, error)
-	OrderHistory(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*OrderList, error)
-	FindOrder(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Order, error)
+	PlaceOrder(ctx context.Context, in *UserOrder, opts ...grpc.CallOption) (*Response, error)
+	OrderHistory(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserOrderList, error)
+	FindOrder(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserOrder, error)
 }
 
 type userServiceClient struct {
@@ -214,9 +214,9 @@ func (c *userServiceClient) UserList(ctx context.Context, in *NoParam, opts ...g
 	return out, nil
 }
 
-func (c *userServiceClient) FindMaterialByID(ctx context.Context, in *MaterialID, opts ...grpc.CallOption) (*Material, error) {
+func (c *userServiceClient) FindMaterialByID(ctx context.Context, in *UserMaterialID, opts ...grpc.CallOption) (*UserMaterial, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Material)
+	out := new(UserMaterial)
 	err := c.cc.Invoke(ctx, UserService_FindMaterialByID_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -224,9 +224,9 @@ func (c *userServiceClient) FindMaterialByID(ctx context.Context, in *MaterialID
 	return out, nil
 }
 
-func (c *userServiceClient) FindAllMaterial(ctx context.Context, in *MaterialNoParams, opts ...grpc.CallOption) (*MaterialList, error) {
+func (c *userServiceClient) FindAllMaterial(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserMaterialList, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(MaterialList)
+	out := new(UserMaterialList)
 	err := c.cc.Invoke(ctx, UserService_FindAllMaterial_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -234,9 +234,9 @@ func (c *userServiceClient) FindAllMaterial(ctx context.Context, in *MaterialNoP
 	return out, nil
 }
 
-func (c *userServiceClient) AddItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemResponse, error) {
+func (c *userServiceClient) AddItem(ctx context.Context, in *UserItem, opts ...grpc.CallOption) (*Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ItemResponse)
+	out := new(Response)
 	err := c.cc.Invoke(ctx, UserService_AddItem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -244,9 +244,9 @@ func (c *userServiceClient) AddItem(ctx context.Context, in *Item, opts ...grpc.
 	return out, nil
 }
 
-func (c *userServiceClient) FindItemByID(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Item, error) {
+func (c *userServiceClient) FindItemByID(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserItem, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Item)
+	out := new(UserItem)
 	err := c.cc.Invoke(ctx, UserService_FindItemByID_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -254,9 +254,9 @@ func (c *userServiceClient) FindItemByID(ctx context.Context, in *ItemID, opts .
 	return out, nil
 }
 
-func (c *userServiceClient) FindAllItem(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*ItemList, error) {
+func (c *userServiceClient) FindAllItem(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserItemList, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ItemList)
+	out := new(UserItemList)
 	err := c.cc.Invoke(ctx, UserService_FindAllItem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -264,9 +264,9 @@ func (c *userServiceClient) FindAllItem(ctx context.Context, in *ItemNoParams, o
 	return out, nil
 }
 
-func (c *userServiceClient) EditItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error) {
+func (c *userServiceClient) EditItem(ctx context.Context, in *UserItem, opts ...grpc.CallOption) (*UserItem, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Item)
+	out := new(UserItem)
 	err := c.cc.Invoke(ctx, UserService_EditItem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -274,9 +274,9 @@ func (c *userServiceClient) EditItem(ctx context.Context, in *Item, opts ...grpc
 	return out, nil
 }
 
-func (c *userServiceClient) RemoveItem(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*ItemResponse, error) {
+func (c *userServiceClient) RemoveItem(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ItemResponse)
+	out := new(Response)
 	err := c.cc.Invoke(ctx, UserService_RemoveItem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -284,9 +284,9 @@ func (c *userServiceClient) RemoveItem(ctx context.Context, in *ItemID, opts ...
 	return out, nil
 }
 
-func (c *userServiceClient) PlaceOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*OrderResponse, error) {
+func (c *userServiceClient) PlaceOrder(ctx context.Context, in *UserOrder, opts ...grpc.CallOption) (*Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(OrderResponse)
+	out := new(Response)
 	err := c.cc.Invoke(ctx, UserService_PlaceOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -294,9 +294,9 @@ func (c *userServiceClient) PlaceOrder(ctx context.Context, in *Order, opts ...g
 	return out, nil
 }
 
-func (c *userServiceClient) OrderHistory(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*OrderList, error) {
+func (c *userServiceClient) OrderHistory(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserOrderList, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(OrderList)
+	out := new(UserOrderList)
 	err := c.cc.Invoke(ctx, UserService_OrderHistory_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -304,9 +304,9 @@ func (c *userServiceClient) OrderHistory(ctx context.Context, in *ItemNoParams, 
 	return out, nil
 }
 
-func (c *userServiceClient) FindOrder(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Order, error) {
+func (c *userServiceClient) FindOrder(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserOrder, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Order)
+	out := new(UserOrder)
 	err := c.cc.Invoke(ctx, UserService_FindOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -332,18 +332,18 @@ type UserServiceServer interface {
 	UnblockUser(context.Context, *ID) (*Response, error)
 	UserList(context.Context, *NoParam) (*UserListResponse, error)
 	// Service to handle material management
-	FindMaterialByID(context.Context, *MaterialID) (*Material, error)
-	FindAllMaterial(context.Context, *MaterialNoParams) (*MaterialList, error)
+	FindMaterialByID(context.Context, *UserMaterialID) (*UserMaterial, error)
+	FindAllMaterial(context.Context, *NoParam) (*UserMaterialList, error)
 	// Service to handle item management
-	AddItem(context.Context, *Item) (*ItemResponse, error)
-	FindItemByID(context.Context, *ItemID) (*Item, error)
-	FindAllItem(context.Context, *ItemNoParams) (*ItemList, error)
-	EditItem(context.Context, *Item) (*Item, error)
-	RemoveItem(context.Context, *ItemID) (*ItemResponse, error)
+	AddItem(context.Context, *UserItem) (*Response, error)
+	FindItemByID(context.Context, *UserItemID) (*UserItem, error)
+	FindAllItem(context.Context, *NoParam) (*UserItemList, error)
+	EditItem(context.Context, *UserItem) (*UserItem, error)
+	RemoveItem(context.Context, *UserItemID) (*Response, error)
 	// Service to handle orders
-	PlaceOrder(context.Context, *Order) (*OrderResponse, error)
-	OrderHistory(context.Context, *ItemNoParams) (*OrderList, error)
-	FindOrder(context.Context, *ItemID) (*Order, error)
+	PlaceOrder(context.Context, *UserOrder) (*Response, error)
+	OrderHistory(context.Context, *NoParam) (*UserOrderList, error)
+	FindOrder(context.Context, *UserItemID) (*UserOrder, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -393,34 +393,34 @@ func (UnimplementedUserServiceServer) UnblockUser(context.Context, *ID) (*Respon
 func (UnimplementedUserServiceServer) UserList(context.Context, *NoParam) (*UserListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserList not implemented")
 }
-func (UnimplementedUserServiceServer) FindMaterialByID(context.Context, *MaterialID) (*Material, error) {
+func (UnimplementedUserServiceServer) FindMaterialByID(context.Context, *UserMaterialID) (*UserMaterial, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindMaterialByID not implemented")
 }
-func (UnimplementedUserServiceServer) FindAllMaterial(context.Context, *MaterialNoParams) (*MaterialList, error) {
+func (UnimplementedUserServiceServer) FindAllMaterial(context.Context, *NoParam) (*UserMaterialList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindAllMaterial not implemented")
 }
-func (UnimplementedUserServiceServer) AddItem(context.Context, *Item) (*ItemResponse, error) {
+func (UnimplementedUserServiceServer) AddItem(context.Context, *UserItem) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddItem not implemented")
 }
-func (UnimplementedUserServiceServer) FindItemByID(context.Context, *ItemID) (*Item, error) {
+func (UnimplementedUserServiceServer) FindItemByID(context.Context, *UserItemID) (*UserItem, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindItemByID not implemented")
 }
-func (UnimplementedUserServiceServer) FindAllItem(context.Context, *ItemNoParams) (*ItemList, error) {
+func (UnimplementedUserServiceServer) FindAllItem(context.Context, *NoParam) (*UserItemList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindAllItem not implemented")
 }
-func (UnimplementedUserServiceServer) EditItem(context.Context, *Item) (*Item, error) {
+func (UnimplementedUserServiceServer) EditItem(context.Context, *UserItem) (*UserItem, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditItem not implemented")
 }
-func (UnimplementedUserServiceServer) RemoveItem(context.Context, *ItemID) (*ItemResponse, error) {
+func (UnimplementedUserServiceServer) RemoveItem(context.Context, *UserItemID) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveItem not implemented")
 }
-func (UnimplementedUserServiceServer) PlaceOrder(context.Context, *Order) (*OrderResponse, error) {
+func (UnimplementedUserServiceServer) PlaceOrder(context.Context, *UserOrder) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceOrder not implemented")
 }
-func (UnimplementedUserServiceServer) OrderHistory(context.Context, *ItemNoParams) (*OrderList, error) {
+func (UnimplementedUserServiceServer) OrderHistory(context.Context, *NoParam) (*UserOrderList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderHistory not implemented")
 }
-func (UnimplementedUserServiceServer) FindOrder(context.Context, *ItemID) (*Order, error) {
+func (UnimplementedUserServiceServer) FindOrder(context.Context, *UserItemID) (*UserOrder, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOrder not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
@@ -679,7 +679,7 @@ func _UserService_UserList_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _UserService_FindMaterialByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MaterialID)
+	in := new(UserMaterialID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -691,13 +691,13 @@ func _UserService_FindMaterialByID_Handler(srv interface{}, ctx context.Context,
 		FullMethod: UserService_FindMaterialByID_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FindMaterialByID(ctx, req.(*MaterialID))
+		return srv.(UserServiceServer).FindMaterialByID(ctx, req.(*UserMaterialID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_FindAllMaterial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MaterialNoParams)
+	in := new(NoParam)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -709,13 +709,13 @@ func _UserService_FindAllMaterial_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: UserService_FindAllMaterial_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FindAllMaterial(ctx, req.(*MaterialNoParams))
+		return srv.(UserServiceServer).FindAllMaterial(ctx, req.(*NoParam))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_AddItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Item)
+	in := new(UserItem)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -727,13 +727,13 @@ func _UserService_AddItem_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: UserService_AddItem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).AddItem(ctx, req.(*Item))
+		return srv.(UserServiceServer).AddItem(ctx, req.(*UserItem))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_FindItemByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ItemID)
+	in := new(UserItemID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -745,13 +745,13 @@ func _UserService_FindItemByID_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: UserService_FindItemByID_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FindItemByID(ctx, req.(*ItemID))
+		return srv.(UserServiceServer).FindItemByID(ctx, req.(*UserItemID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_FindAllItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ItemNoParams)
+	in := new(NoParam)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -763,13 +763,13 @@ func _UserService_FindAllItem_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: UserService_FindAllItem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FindAllItem(ctx, req.(*ItemNoParams))
+		return srv.(UserServiceServer).FindAllItem(ctx, req.(*NoParam))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_EditItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Item)
+	in := new(UserItem)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -781,13 +781,13 @@ func _UserService_EditItem_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: UserService_EditItem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).EditItem(ctx, req.(*Item))
+		return srv.(UserServiceServer).EditItem(ctx, req.(*UserItem))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_RemoveItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ItemID)
+	in := new(UserItemID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -799,13 +799,13 @@ func _UserService_RemoveItem_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: UserService_RemoveItem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).RemoveItem(ctx, req.(*ItemID))
+		return srv.(UserServiceServer).RemoveItem(ctx, req.(*UserItemID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_PlaceOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Order)
+	in := new(UserOrder)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -817,13 +817,13 @@ func _UserService_PlaceOrder_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: UserService_PlaceOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).PlaceOrder(ctx, req.(*Order))
+		return srv.(UserServiceServer).PlaceOrder(ctx, req.(*UserOrder))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_OrderHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ItemNoParams)
+	in := new(NoParam)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -835,13 +835,13 @@ func _UserService_OrderHistory_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: UserService_OrderHistory_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).OrderHistory(ctx, req.(*ItemNoParams))
+		return srv.(UserServiceServer).OrderHistory(ctx, req.(*NoParam))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_FindOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ItemID)
+	in := new(UserItemID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -853,7 +853,7 @@ func _UserService_FindOrder_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: UserService_FindOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FindOrder(ctx, req.(*ItemID))
+		return srv.(UserServiceServer).FindOrder(ctx, req.(*UserItemID))
 	}
 	return interceptor(ctx, in, info, handler)
 }

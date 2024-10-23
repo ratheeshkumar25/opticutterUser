@@ -20,20 +20,20 @@ service  UserService {
     rpc UserList(NoParam) returns (UserListResponse);
 
     // Service to handle material management
-    rpc FindMaterialByID(MaterialID) returns (Material);
-    rpc FindAllMaterial(MaterialNoParams) returns (MaterialList);
+    rpc FindMaterialByID(UserMaterialID) returns (UserMaterial);
+    rpc FindAllMaterial(NoParam) returns (UserMaterialList);
 
     // Service to handle item management
-    rpc AddItem(Item) returns (ItemResponse);
-    rpc FindItemByID(ItemID) returns (Item);
-    rpc FindAllItem(ItemNoParams) returns (ItemList);
-    rpc EditItem(Item) returns (Item);
-    rpc RemoveItem(ItemID) returns (ItemResponse);
+    rpc AddItem(UserItem) returns (Response);
+    rpc FindItemByID(UserItemID) returns (UserItem);
+    rpc FindAllItem(NoParam) returns (UserItemList);
+    rpc EditItem(UserItem) returns (UserItem);
+    rpc RemoveItem(UserItemID) returns (Response);
 
     // Service to handle orders
-    rpc PlaceOrder(Order)returns(OrderResponse);
-    rpc OrderHistory(ItemNoParams) returns (OrderList);
-    rpc FindOrder(ItemID) returns (Order);
+    rpc PlaceOrder(UserOrder)returns(Response);
+    rpc OrderHistory(NoParam) returns (UserOrderList);
+    rpc FindOrder(UserItemID) returns (UserOrder);
 }
 
 message NoParam {}
@@ -109,7 +109,7 @@ message Password {
 }
 
 // Material messages
-message Material {
+message UserMaterial {
     uint32 Material_ID = 1;
     string Material_Name = 2;
     string Description = 3;
@@ -117,32 +117,16 @@ message Material {
     double Price = 5;
 }
 
-message MaterialResponse {
-    enum Status {
-        OK = 0;
-        ERROR = 1;
-    }
-
-    Status status = 1;
-    string message = 2;
-    oneof payload {
-        string error = 3;
-        string data = 4;
-    }
+message UserMaterialList {
+    repeated UserMaterial Materials = 1;
 }
 
-message MaterialNoParams {}
-
-message MaterialList {
-    repeated Material Materials = 1;
-}
-
-message MaterialID {
-    uint32 ID = 1;  // Corrected typo
+message UserMaterialID {
+    uint32 ID = 1;  
 }
 
 // Item messages
-message Item {
+message UserItem {
     uint32 Item_ID = 1;
     string Item_Name = 2;
     uint32 Material_ID = 3;
@@ -153,32 +137,17 @@ message Item {
     float Estimated_Price = 8;
 }
 
-message ItemResponse {
-    enum Status {
-        OK = 0;
-        ERROR = 1;
-    }
 
-    Status status = 1;
-    string message = 2;
-    oneof payload {
-        string error = 3;
-        string data = 4;
-    }
+message UserItemID {
+    uint32 ID = 1;  
 }
 
-message ItemID {
-    uint32 ID = 1;  // Corrected typo
+message UserItemList {
+    repeated UserItem Items = 1;
 }
-
-message ItemList {
-    repeated Item Items = 1;
-}
-
-message ItemNoParams {}
 
 // Order messages
-message Order {
+message UserOrder {
     uint32 Order_ID = 1;
     uint32 User_ID = 2;
     uint32 Item_ID = 3;
@@ -190,40 +159,10 @@ message Order {
     string Payment_ID = 9;
 }
 
-message OrderList {
-    repeated Order Orders = 1;
+message UserOrderList {
+    repeated UserOrder Orders = 1;
 }
 
-message OrderResponse {
-    enum Status {
-        OK = 0;
-        ERROR = 1;
-    }
-
-    Status status = 1;
-    string message = 2;
-    oneof payload {
-        string error = 3;
-        string data = 4;
-    }
-}
-
-//Payment
-
-message PaymentResponse {
-    uint32 Product_ID = 1;
-    string User_Name = 2;
-    string User_Email = 3;
-    float Amount = 4;
-    string Order_ID = 5;
-}
-
-message Payment {
-    uint32 User_ID = 1;
-    string Payment_ID = 2;
-    float Amount = 3;
-    uint32 Product_ID = 4;
-}
 
 message UserListResponse {
     repeated Profile Profiles = 1;

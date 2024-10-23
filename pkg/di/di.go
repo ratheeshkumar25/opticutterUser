@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/ratheeshkumar25/opti_cut_userservice/config"
+	"github.com/ratheeshkumar25/opti_cut_userservice/pkg/client/material"
 	"github.com/ratheeshkumar25/opti_cut_userservice/pkg/db"
 	"github.com/ratheeshkumar25/opti_cut_userservice/pkg/handlers"
 	"github.com/ratheeshkumar25/opti_cut_userservice/pkg/repo"
@@ -21,8 +22,13 @@ func Init() {
 	twilio := config.SetupTwilio(cnfg)
 	db := db.ConnectDB(cnfg)
 
+	materialClient, err := material.ClientDial(*cnfg)
+	if err != nil {
+		log.Fatalf("failed to connect to material client")
+	}
+
 	userRepo := repo.NewUserRepository(db)
-	userService := services.NewUserService(userRepo, redis, twilio)
+	userService := services.NewUserService(userRepo, redis, twilio, materialClient)
 	userHandler := handlers.NewUserHandler(userService)
 
 	err = server.NewGrpcUserServer(cnfg.GrpcPort, userHandler)

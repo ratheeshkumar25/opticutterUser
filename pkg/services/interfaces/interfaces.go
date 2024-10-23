@@ -19,18 +19,18 @@ type UserServiceInter interface {
 	RemoveAddressService(p *pb.IDs) (*pb.Response, error)
 	ViewUserList(p *pb.NoParam) (*pb.UserListResponse, error)
 
-	FindMaterialByIDService(p *pb.MaterialID) (*pb.Material, error)
-	FindAllMaterialService(p *pb.MaterialNoParams) (*pb.MaterialList, error)
+	FindMaterialByIDService(p *pb.UserMaterialID) (*pb.UserMaterial, error)
+	FindAllMaterialService(p *pb.NoParam) (*pb.UserMaterialList, error)
 
 	// Service to handle item management
-	AddItemService(p *pb.Item) (*pb.ItemResponse, error)
-	EditItemService(p *pb.Item) (*pb.Item, error)
-	RemoveItemService(p *pb.ItemID) (*pb.ItemResponse, error)
-	FindItemByID(p *pb.ItemID) (*pb.Item, error)
-	FindAllItem(p *pb.ItemNoParams) (*pb.ItemList, error)
+	AddItemService(p *pb.UserItem) (*pb.Response, error)
+	EditItemService(p *pb.UserItem) (*pb.UserItem, error)
+	RemoveItemService(p *pb.UserItemID) (*pb.Response, error)
+	FindItemByID(p *pb.UserItemID) (*pb.UserItem, error)
+	FindAllItem(p *pb.NoParam) (*pb.UserItemList, error)
 
 	// Service to handle orders
-	PlaceOrderService(p *pb.Order) (*pb.OrderResponse, error)
-	FindAllOrdersSvc(p *pb.ItemNoParams) (*pb.OrderList, error)
-	FindOrderSvc(p *pb.ItemID) (*pb.Order, error)
+	PlaceOrderService(p *pb.UserOrder) (*pb.Response, error)
+	FindAllOrdersSvc(p *pb.NoParam) (*pb.UserOrderList, error)
+	FindOrderSvc(p *pb.UserItemID) (*pb.UserOrder, error)
 }
