@@ -121,6 +121,7 @@ func (u *UserService) ChangePassword(p *pb.Password) (*pb.Response, error) {
 
 // UnblockUserService implements interfaces.UserServiceInter.
 func (u *UserService) UnblockUserService(p *pb.ID) (*pb.Response, error) {
+
 	user, err := u.Repo.FindUserByID(uint(p.ID))
 	fmt.Println("userrr data", user)
 	if err != nil {

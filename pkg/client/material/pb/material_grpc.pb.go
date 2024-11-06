@@ -19,16 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	MaterialService_FindMaterialByID_FullMethodName = "/pb.MaterialService/FindMaterialByID"
-	MaterialService_FindAllMaterial_FullMethodName  = "/pb.MaterialService/FindAllMaterial"
-	MaterialService_AddItem_FullMethodName          = "/pb.MaterialService/AddItem"
-	MaterialService_FindItemByID_FullMethodName     = "/pb.MaterialService/FindItemByID"
-	MaterialService_FindAllItem_FullMethodName      = "/pb.MaterialService/FindAllItem"
-	MaterialService_EditItem_FullMethodName         = "/pb.MaterialService/EditItem"
-	MaterialService_RemoveItem_FullMethodName       = "/pb.MaterialService/RemoveItem"
-	MaterialService_PlaceOrder_FullMethodName       = "/pb.MaterialService/PlaceOrder"
-	MaterialService_OrderHistory_FullMethodName     = "/pb.MaterialService/OrderHistory"
-	MaterialService_FindOrder_FullMethodName        = "/pb.MaterialService/FindOrder"
+	MaterialService_FindMaterialByID_FullMethodName  = "/pb.MaterialService/FindMaterialByID"
+	MaterialService_FindAllMaterial_FullMethodName   = "/pb.MaterialService/FindAllMaterial"
+	MaterialService_AddItem_FullMethodName           = "/pb.MaterialService/AddItem"
+	MaterialService_FindItemByID_FullMethodName      = "/pb.MaterialService/FindItemByID"
+	MaterialService_FindAllItemByUser_FullMethodName = "/pb.MaterialService/FindAllItemByUser"
+	MaterialService_FindAllItem_FullMethodName       = "/pb.MaterialService/FindAllItem"
+	MaterialService_EditItem_FullMethodName          = "/pb.MaterialService/EditItem"
+	MaterialService_RemoveItem_FullMethodName        = "/pb.MaterialService/RemoveItem"
+	MaterialService_PlaceOrder_FullMethodName        = "/pb.MaterialService/PlaceOrder"
+	MaterialService_OrderHistory_FullMethodName      = "/pb.MaterialService/OrderHistory"
+	MaterialService_FindOrder_FullMethodName         = "/pb.MaterialService/FindOrder"
+	MaterialService_FindOrdersByUser_FullMethodName  = "/pb.MaterialService/FindOrdersByUser"
 )
 
 // MaterialServiceClient is the client API for MaterialService service.
@@ -43,6 +45,7 @@ type MaterialServiceClient interface {
 	// Service to handle item management
 	AddItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemResponse, error)
 	FindItemByID(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Item, error)
+	FindAllItemByUser(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*ItemList, error)
 	FindAllItem(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*ItemList, error)
 	EditItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error)
 	RemoveItem(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*ItemResponse, error)
@@ -50,6 +53,7 @@ type MaterialServiceClient interface {
 	PlaceOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*OrderResponse, error)
 	OrderHistory(ctx context.Context, in *ItemNoParams, opts ...grpc.CallOption) (*OrderList, error)
 	FindOrder(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*Order, error)
+	FindOrdersByUser(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*OrderList, error)
 }
 
 type materialServiceClient struct {
@@ -94,6 +98,16 @@ func (c *materialServiceClient) FindItemByID(ctx context.Context, in *ItemID, op
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Item)
 	err := c.cc.Invoke(ctx, MaterialService_FindItemByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *materialServiceClient) FindAllItemByUser(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*ItemList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ItemList)
+	err := c.cc.Invoke(ctx, MaterialService_FindAllItemByUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -160,6 +174,16 @@ func (c *materialServiceClient) FindOrder(ctx context.Context, in *ItemID, opts 
 	return out, nil
 }
 
+func (c *materialServiceClient) FindOrdersByUser(ctx context.Context, in *ItemID, opts ...grpc.CallOption) (*OrderList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrderList)
+	err := c.cc.Invoke(ctx, MaterialService_FindOrdersByUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MaterialServiceServer is the server API for MaterialService service.
 // All implementations must embed UnimplementedMaterialServiceServer
 // for forward compatibility.
@@ -172,6 +196,7 @@ type MaterialServiceServer interface {
 	// Service to handle item management
 	AddItem(context.Context, *Item) (*ItemResponse, error)
 	FindItemByID(context.Context, *ItemID) (*Item, error)
+	FindAllItemByUser(context.Context, *ItemID) (*ItemList, error)
 	FindAllItem(context.Context, *ItemNoParams) (*ItemList, error)
 	EditItem(context.Context, *Item) (*Item, error)
 	RemoveItem(context.Context, *ItemID) (*ItemResponse, error)
@@ -179,6 +204,7 @@ type MaterialServiceServer interface {
 	PlaceOrder(context.Context, *Order) (*OrderResponse, error)
 	OrderHistory(context.Context, *ItemNoParams) (*OrderList, error)
 	FindOrder(context.Context, *ItemID) (*Order, error)
+	FindOrdersByUser(context.Context, *ItemID) (*OrderList, error)
 	mustEmbedUnimplementedMaterialServiceServer()
 }
 
@@ -201,6 +227,9 @@ func (UnimplementedMaterialServiceServer) AddItem(context.Context, *Item) (*Item
 func (UnimplementedMaterialServiceServer) FindItemByID(context.Context, *ItemID) (*Item, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindItemByID not implemented")
 }
+func (UnimplementedMaterialServiceServer) FindAllItemByUser(context.Context, *ItemID) (*ItemList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAllItemByUser not implemented")
+}
 func (UnimplementedMaterialServiceServer) FindAllItem(context.Context, *ItemNoParams) (*ItemList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindAllItem not implemented")
 }
@@ -218,6 +247,9 @@ func (UnimplementedMaterialServiceServer) OrderHistory(context.Context, *ItemNoP
 }
 func (UnimplementedMaterialServiceServer) FindOrder(context.Context, *ItemID) (*Order, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOrder not implemented")
+}
+func (UnimplementedMaterialServiceServer) FindOrdersByUser(context.Context, *ItemID) (*OrderList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOrdersByUser not implemented")
 }
 func (UnimplementedMaterialServiceServer) mustEmbedUnimplementedMaterialServiceServer() {}
 func (UnimplementedMaterialServiceServer) testEmbeddedByValue()                         {}
@@ -308,6 +340,24 @@ func _MaterialService_FindItemByID_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MaterialServiceServer).FindItemByID(ctx, req.(*ItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MaterialService_FindAllItemByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MaterialServiceServer).FindAllItemByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MaterialService_FindAllItemByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MaterialServiceServer).FindAllItemByUser(ctx, req.(*ItemID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -420,6 +470,24 @@ func _MaterialService_FindOrder_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MaterialService_FindOrdersByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MaterialServiceServer).FindOrdersByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MaterialService_FindOrdersByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MaterialServiceServer).FindOrdersByUser(ctx, req.(*ItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MaterialService_ServiceDesc is the grpc.ServiceDesc for MaterialService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -444,6 +512,10 @@ var MaterialService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MaterialService_FindItemByID_Handler,
 		},
 		{
+			MethodName: "FindAllItemByUser",
+			Handler:    _MaterialService_FindAllItemByUser_Handler,
+		},
+		{
 			MethodName: "FindAllItem",
 			Handler:    _MaterialService_FindAllItem_Handler,
 		},
@@ -466,6 +538,10 @@ var MaterialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindOrder",
 			Handler:    _MaterialService_FindOrder_Handler,
+		},
+		{
+			MethodName: "FindOrdersByUser",
+			Handler:    _MaterialService_FindOrdersByUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

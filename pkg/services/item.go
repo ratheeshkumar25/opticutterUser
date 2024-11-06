@@ -18,6 +18,7 @@ func (u *UserService) AddItemService(p *pb.UserItem) (*pb.Response, error) {
 		Width:         p.Width,
 		Fixed_Size_ID: p.Fixed_Size_ID,
 		Is_Custom:     p.Is_Custom,
+		User_ID:       p.User_ID,
 	}
 
 	itemID, err := u.MaterialClient.AddItem(ctx, newItem)
@@ -51,6 +52,7 @@ func (u *UserService) EditItemService(p *pb.UserItem) (*pb.UserItem, error) {
 		Width:         p.Width,
 		Fixed_Size_ID: p.Fixed_Size_ID,
 		Is_Custom:     p.Is_Custom,
+		User_ID:       p.User_ID,
 	}
 
 	// Call the MaterialClient's EditItem method
@@ -110,6 +112,7 @@ func (u *UserService) FindItemByID(p *pb.UserItemID) (*pb.UserItem, error) {
 		Fixed_Size_ID:   item.Fixed_Size_ID,
 		Is_Custom:       item.Is_Custom,
 		Estimated_Price: item.Estimated_Price,
+		User_ID:         item.User_ID,
 	}, nil
 }
 
@@ -130,5 +133,34 @@ func (u *UserService) RemoveItemService(p *pb.UserItemID) (*pb.Response, error) 
 	return &pb.Response{
 		Status:  pb.Response_OK,
 		Message: "Item removed successfully",
+	}, nil
+}
+
+// FindAllItemByUser implements interfaces.UserServiceInter.
+func (u *UserService) FindAllItemByUser(p *pb.UserItemID) (*pb.UserItemList, error) {
+	ctx := context.Background()
+
+	result, err := u.MaterialClient.FindAllItemByUser(ctx, &materialpb.ItemID{ID: p.ID})
+	if err != nil {
+		return nil, err
+	}
+
+	var items []*pb.UserItem
+
+	for _, itm := range result.Items {
+		pbItems := &pb.UserItem{
+			Item_ID:         itm.Item_ID,
+			Item_Name:       itm.Item_Name,
+			Material_ID:     itm.Material_ID,
+			Length:          itm.Length,
+			Width:           itm.Width,
+			Fixed_Size_ID:   itm.Fixed_Size_ID,
+			Estimated_Price: itm.Estimated_Price,
+			User_ID:         itm.User_ID,
+		}
+		items = append(items, pbItems)
+	}
+	return &pb.UserItemList{
+		Items: items,
 	}, nil
 }

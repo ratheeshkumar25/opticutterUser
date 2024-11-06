@@ -93,3 +93,31 @@ func (u *UserService) PlaceOrderService(p *pb.UserOrder) (*pb.Response, error) {
 	}, nil
 
 }
+
+// FindOrdersByUser implements interfaces.UserServiceInter.
+func (u *UserService) FindOrdersByUser(p *pb.UserItemID) (*pb.UserOrderList, error) {
+	ctx := context.Background()
+
+	result, err := u.MaterialClient.FindOrdersByUser(ctx, &materialpb.ItemID{ID: p.ID})
+	if err != nil {
+		return nil, err
+	}
+
+	var orders []*pb.UserOrder
+
+	for _, ord := range result.Orders {
+		pbOrders := &pb.UserOrder{
+			User_ID:    ord.User_ID,
+			Item_ID:    ord.Item_ID,
+			Order_ID:   ord.Order_ID,
+			Amount:     ord.Amount,
+			Is_Custom:  ord.Is_Custom,
+			Status:     ord.Status,
+			Payment_ID: ord.Payment_ID,
+		}
+		orders = append(orders, pbOrders)
+	}
+	return &pb.UserOrderList{
+		Orders: orders,
+	}, nil
+}

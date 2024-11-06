@@ -19,29 +19,31 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_UserSignup_FullMethodName       = "/pb.UserService/UserSignup"
-	UserService_VerifyUser_FullMethodName       = "/pb.UserService/VerifyUser"
-	UserService_UserLogin_FullMethodName        = "/pb.UserService/UserLogin"
-	UserService_ViewProfile_FullMethodName      = "/pb.UserService/ViewProfile"
-	UserService_EditProftle_FullMethodName      = "/pb.UserService/EditProftle"
-	UserService_ChangePassword_FullMethodName   = "/pb.UserService/ChangePassword"
-	UserService_AddAddress_FullMethodName       = "/pb.UserService/AddAddress"
-	UserService_ViewAllAddress_FullMethodName   = "/pb.UserService/ViewAllAddress"
-	UserService_EditAddress_FullMethodName      = "/pb.UserService/EditAddress"
-	UserService_RemoveAddress_FullMethodName    = "/pb.UserService/RemoveAddress"
-	UserService_BlockUser_FullMethodName        = "/pb.UserService/BlockUser"
-	UserService_UnblockUser_FullMethodName      = "/pb.UserService/UnblockUser"
-	UserService_UserList_FullMethodName         = "/pb.UserService/UserList"
-	UserService_FindMaterialByID_FullMethodName = "/pb.UserService/FindMaterialByID"
-	UserService_FindAllMaterial_FullMethodName  = "/pb.UserService/FindAllMaterial"
-	UserService_AddItem_FullMethodName          = "/pb.UserService/AddItem"
-	UserService_FindItemByID_FullMethodName     = "/pb.UserService/FindItemByID"
-	UserService_FindAllItem_FullMethodName      = "/pb.UserService/FindAllItem"
-	UserService_EditItem_FullMethodName         = "/pb.UserService/EditItem"
-	UserService_RemoveItem_FullMethodName       = "/pb.UserService/RemoveItem"
-	UserService_PlaceOrder_FullMethodName       = "/pb.UserService/PlaceOrder"
-	UserService_OrderHistory_FullMethodName     = "/pb.UserService/OrderHistory"
-	UserService_FindOrder_FullMethodName        = "/pb.UserService/FindOrder"
+	UserService_UserSignup_FullMethodName        = "/pb.UserService/UserSignup"
+	UserService_VerifyUser_FullMethodName        = "/pb.UserService/VerifyUser"
+	UserService_UserLogin_FullMethodName         = "/pb.UserService/UserLogin"
+	UserService_ViewProfile_FullMethodName       = "/pb.UserService/ViewProfile"
+	UserService_EditProftle_FullMethodName       = "/pb.UserService/EditProftle"
+	UserService_ChangePassword_FullMethodName    = "/pb.UserService/ChangePassword"
+	UserService_AddAddress_FullMethodName        = "/pb.UserService/AddAddress"
+	UserService_ViewAllAddress_FullMethodName    = "/pb.UserService/ViewAllAddress"
+	UserService_EditAddress_FullMethodName       = "/pb.UserService/EditAddress"
+	UserService_RemoveAddress_FullMethodName     = "/pb.UserService/RemoveAddress"
+	UserService_BlockUser_FullMethodName         = "/pb.UserService/BlockUser"
+	UserService_UnblockUser_FullMethodName       = "/pb.UserService/UnblockUser"
+	UserService_UserList_FullMethodName          = "/pb.UserService/UserList"
+	UserService_FindMaterialByID_FullMethodName  = "/pb.UserService/FindMaterialByID"
+	UserService_FindAllMaterial_FullMethodName   = "/pb.UserService/FindAllMaterial"
+	UserService_AddItem_FullMethodName           = "/pb.UserService/AddItem"
+	UserService_FindItemByID_FullMethodName      = "/pb.UserService/FindItemByID"
+	UserService_FindAllItem_FullMethodName       = "/pb.UserService/FindAllItem"
+	UserService_FindAllItemByUser_FullMethodName = "/pb.UserService/FindAllItemByUser"
+	UserService_EditItem_FullMethodName          = "/pb.UserService/EditItem"
+	UserService_RemoveItem_FullMethodName        = "/pb.UserService/RemoveItem"
+	UserService_PlaceOrder_FullMethodName        = "/pb.UserService/PlaceOrder"
+	UserService_OrderHistory_FullMethodName      = "/pb.UserService/OrderHistory"
+	UserService_FindOrder_FullMethodName         = "/pb.UserService/FindOrder"
+	UserService_FindOrdersByUser_FullMethodName  = "/pb.UserService/FindOrdersByUser"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -68,12 +70,14 @@ type UserServiceClient interface {
 	AddItem(ctx context.Context, in *UserItem, opts ...grpc.CallOption) (*Response, error)
 	FindItemByID(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserItem, error)
 	FindAllItem(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserItemList, error)
+	FindAllItemByUser(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserItemList, error)
 	EditItem(ctx context.Context, in *UserItem, opts ...grpc.CallOption) (*UserItem, error)
 	RemoveItem(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*Response, error)
 	// Service to handle orders
 	PlaceOrder(ctx context.Context, in *UserOrder, opts ...grpc.CallOption) (*Response, error)
 	OrderHistory(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserOrderList, error)
 	FindOrder(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserOrder, error)
+	FindOrdersByUser(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserOrderList, error)
 }
 
 type userServiceClient struct {
@@ -264,6 +268,16 @@ func (c *userServiceClient) FindAllItem(ctx context.Context, in *NoParam, opts .
 	return out, nil
 }
 
+func (c *userServiceClient) FindAllItemByUser(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserItemList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserItemList)
+	err := c.cc.Invoke(ctx, UserService_FindAllItemByUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) EditItem(ctx context.Context, in *UserItem, opts ...grpc.CallOption) (*UserItem, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserItem)
@@ -314,6 +328,16 @@ func (c *userServiceClient) FindOrder(ctx context.Context, in *UserItemID, opts 
 	return out, nil
 }
 
+func (c *userServiceClient) FindOrdersByUser(ctx context.Context, in *UserItemID, opts ...grpc.CallOption) (*UserOrderList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserOrderList)
+	err := c.cc.Invoke(ctx, UserService_FindOrdersByUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -338,12 +362,14 @@ type UserServiceServer interface {
 	AddItem(context.Context, *UserItem) (*Response, error)
 	FindItemByID(context.Context, *UserItemID) (*UserItem, error)
 	FindAllItem(context.Context, *NoParam) (*UserItemList, error)
+	FindAllItemByUser(context.Context, *UserItemID) (*UserItemList, error)
 	EditItem(context.Context, *UserItem) (*UserItem, error)
 	RemoveItem(context.Context, *UserItemID) (*Response, error)
 	// Service to handle orders
 	PlaceOrder(context.Context, *UserOrder) (*Response, error)
 	OrderHistory(context.Context, *NoParam) (*UserOrderList, error)
 	FindOrder(context.Context, *UserItemID) (*UserOrder, error)
+	FindOrdersByUser(context.Context, *UserItemID) (*UserOrderList, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -408,6 +434,9 @@ func (UnimplementedUserServiceServer) FindItemByID(context.Context, *UserItemID)
 func (UnimplementedUserServiceServer) FindAllItem(context.Context, *NoParam) (*UserItemList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindAllItem not implemented")
 }
+func (UnimplementedUserServiceServer) FindAllItemByUser(context.Context, *UserItemID) (*UserItemList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAllItemByUser not implemented")
+}
 func (UnimplementedUserServiceServer) EditItem(context.Context, *UserItem) (*UserItem, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditItem not implemented")
 }
@@ -422,6 +451,9 @@ func (UnimplementedUserServiceServer) OrderHistory(context.Context, *NoParam) (*
 }
 func (UnimplementedUserServiceServer) FindOrder(context.Context, *UserItemID) (*UserOrder, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOrder not implemented")
+}
+func (UnimplementedUserServiceServer) FindOrdersByUser(context.Context, *UserItemID) (*UserOrderList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOrdersByUser not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -768,6 +800,24 @@ func _UserService_FindAllItem_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_FindAllItemByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindAllItemByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindAllItemByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindAllItemByUser(ctx, req.(*UserItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_EditItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserItem)
 	if err := dec(in); err != nil {
@@ -858,6 +908,24 @@ func _UserService_FindOrder_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_FindOrdersByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserItemID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindOrdersByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindOrdersByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindOrdersByUser(ctx, req.(*UserItemID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -938,6 +1006,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_FindAllItem_Handler,
 		},
 		{
+			MethodName: "FindAllItemByUser",
+			Handler:    _UserService_FindAllItemByUser_Handler,
+		},
+		{
 			MethodName: "EditItem",
 			Handler:    _UserService_EditItem_Handler,
 		},
@@ -956,6 +1028,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindOrder",
 			Handler:    _UserService_FindOrder_Handler,
+		},
+		{
+			MethodName: "FindOrdersByUser",
+			Handler:    _UserService_FindOrdersByUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

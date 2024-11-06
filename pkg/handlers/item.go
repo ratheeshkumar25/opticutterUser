@@ -41,3 +41,11 @@ func (u *UserHandler) RemoveItem(ctx context.Context, p *pb.UserItemID) (*pb.Res
 	}
 	return response, nil
 }
+
+func (u *UserHandler) FindAllItemByUser(ctx context.Context, p *pb.UserItemID) (*pb.UserItemList, error) {
+	response, err := u.SVC.FindAllItemByUser(p)
+	if err != nil {
+		return response, err
+	}
+	return response, nil
+}

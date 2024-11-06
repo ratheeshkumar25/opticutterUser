@@ -27,6 +27,7 @@ service  UserService {
     rpc AddItem(UserItem) returns (Response);
     rpc FindItemByID(UserItemID) returns (UserItem);
     rpc FindAllItem(NoParam) returns (UserItemList);
+    rpc FindAllItemByUser(UserItemID) returns (UserItemList);
     rpc EditItem(UserItem) returns (UserItem);
     rpc RemoveItem(UserItemID) returns (Response);
 
@@ -34,6 +35,7 @@ service  UserService {
     rpc PlaceOrder(UserOrder)returns(Response);
     rpc OrderHistory(NoParam) returns (UserOrderList);
     rpc FindOrder(UserItemID) returns (UserOrder);
+    rpc FindOrdersByUser(UserItemID) returns (UserOrderList);
 }
 
 message NoParam {}
@@ -135,6 +137,7 @@ message UserItem {
     uint32 Fixed_Size_ID = 6;
     bool Is_Custom = 7;
     float Estimated_Price = 8;
+    uint32 User_ID =9;
 }
 
 

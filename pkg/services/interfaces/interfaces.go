@@ -28,9 +28,11 @@ type UserServiceInter interface {
 	RemoveItemService(p *pb.UserItemID) (*pb.Response, error)
 	FindItemByID(p *pb.UserItemID) (*pb.UserItem, error)
 	FindAllItem(p *pb.NoParam) (*pb.UserItemList, error)
+	FindAllItemByUser(p *pb.UserItemID) (*pb.UserItemList, error)
 
 	// Service to handle orders
 	PlaceOrderService(p *pb.UserOrder) (*pb.Response, error)
 	FindAllOrdersSvc(p *pb.NoParam) (*pb.UserOrderList, error)
 	FindOrderSvc(p *pb.UserItemID) (*pb.UserOrder, error)
+	FindOrdersByUser(p *pb.UserItemID) (*pb.UserOrderList, error)
 }

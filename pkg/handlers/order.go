@@ -27,3 +27,11 @@ func (u *UserHandler) FindOrder(ctx context.Context, p *pb.UserItemID) (*pb.User
 	}
 	return response, nil
 }
+
+func (u *UserHandler) FindOrdersByUser(ctx context.Context, p *pb.UserItemID) (*pb.UserOrderList, error) {
+	response, err := u.SVC.FindOrdersByUser(p)
+	if err != nil {
+		return response, err
+	}
+	return response, nil
+}

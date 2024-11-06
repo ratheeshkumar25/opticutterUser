@@ -16,8 +16,9 @@ type UserService struct {
 
 func NewUserService(repo inter.UserRepoInter, redis *config.RedisService, twilio *config.TwilioService, materialClient materialpb.MaterialServiceClient) interfaces.UserServiceInter {
 	return &UserService{
-		Repo:   repo,
-		twilio: twilio,
-		redis:  redis,
+		Repo:           repo,
+		twilio:         twilio,
+		redis:          redis,
+		MaterialClient: materialClient,
 	}
 }
