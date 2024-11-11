@@ -158,6 +158,101 @@ func (OrderResponse_Status) EnumDescriptor() ([]byte, []int) {
 	return file_material_proto_rawDescGZIP(), []int{12, 0}
 }
 
+type CuttingResultResponse_Status int32
+
+const (
+	CuttingResultResponse_OK    CuttingResultResponse_Status = 0
+	CuttingResultResponse_ERROR CuttingResultResponse_Status = 1
+)
+
+// Enum value maps for CuttingResultResponse_Status.
+var (
+	CuttingResultResponse_Status_name = map[int32]string{
+		0: "OK",
+		1: "ERROR",
+	}
+	CuttingResultResponse_Status_value = map[string]int32{
+		"OK":    0,
+		"ERROR": 1,
+	}
+)
+
+func (x CuttingResultResponse_Status) Enum() *CuttingResultResponse_Status {
+	p := new(CuttingResultResponse_Status)
+	*p = x
+	return p
+}
+
+func (x CuttingResultResponse_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CuttingResultResponse_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_material_proto_enumTypes[3].Descriptor()
+}
+
+func (CuttingResultResponse_Status) Type() protoreflect.EnumType {
+	return &file_material_proto_enumTypes[3]
+}
+
+func (x CuttingResultResponse_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CuttingResultResponse_Status.Descriptor instead.
+func (CuttingResultResponse_Status) EnumDescriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{15, 0}
+}
+
+type PaymentStatusResponse_Status int32
+
+const (
+	PaymentStatusResponse_SUCCESS PaymentStatusResponse_Status = 0
+	PaymentStatusResponse_FAILED  PaymentStatusResponse_Status = 1
+	PaymentStatusResponse_PENDING PaymentStatusResponse_Status = 2
+)
+
+// Enum value maps for PaymentStatusResponse_Status.
+var (
+	PaymentStatusResponse_Status_name = map[int32]string{
+		0: "SUCCESS",
+		1: "FAILED",
+		2: "PENDING",
+	}
+	PaymentStatusResponse_Status_value = map[string]int32{
+		"SUCCESS": 0,
+		"FAILED":  1,
+		"PENDING": 2,
+	}
+)
+
+func (x PaymentStatusResponse_Status) Enum() *PaymentStatusResponse_Status {
+	p := new(PaymentStatusResponse_Status)
+	*p = x
+	return p
+}
+
+func (x PaymentStatusResponse_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PaymentStatusResponse_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_material_proto_enumTypes[4].Descriptor()
+}
+
+func (PaymentStatusResponse_Status) Type() protoreflect.EnumType {
+	return &file_material_proto_enumTypes[4]
+}
+
+func (x PaymentStatusResponse_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PaymentStatusResponse_Status.Descriptor instead.
+func (PaymentStatusResponse_Status) EnumDescriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{18, 0}
+}
+
 // Material messages
 type Material struct {
 	state         protoimpl.MessageState
@@ -1038,6 +1133,422 @@ func (*OrderResponse_Error) isOrderResponse_Payload() {}
 
 func (*OrderResponse_Data) isOrderResponse_Payload() {}
 
+// CuttingResult
+type Component struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Material_ID   uint32 `protobuf:"varint,1,opt,name=Material_ID,json=MaterialID,proto3" json:"Material_ID,omitempty"`
+	DoorPanel     string `protobuf:"bytes,2,opt,name=DoorPanel,proto3" json:"DoorPanel,omitempty"`
+	BackSidePanel string `protobuf:"bytes,3,opt,name=BackSidePanel,proto3" json:"BackSidePanel,omitempty"`
+	SidePanel     string `protobuf:"bytes,4,opt,name=SidePanel,proto3" json:"SidePanel,omitempty"`
+	TopPanel      string `protobuf:"bytes,5,opt,name=TopPanel,proto3" json:"TopPanel,omitempty"`
+	BottomPanel   string `protobuf:"bytes,6,opt,name=BottomPanel,proto3" json:"BottomPanel,omitempty"`
+	ShelvesPanel  string `protobuf:"bytes,7,opt,name=ShelvesPanel,proto3" json:"ShelvesPanel,omitempty"`
+	Panel_Count   int32  `protobuf:"varint,8,opt,name=Panel_Count,json=PanelCount,proto3" json:"Panel_Count,omitempty"`
+}
+
+func (x *Component) Reset() {
+	*x = Component{}
+	mi := &file_material_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Component) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Component) ProtoMessage() {}
+
+func (x *Component) ProtoReflect() protoreflect.Message {
+	mi := &file_material_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Component.ProtoReflect.Descriptor instead.
+func (*Component) Descriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *Component) GetMaterial_ID() uint32 {
+	if x != nil {
+		return x.Material_ID
+	}
+	return 0
+}
+
+func (x *Component) GetDoorPanel() string {
+	if x != nil {
+		return x.DoorPanel
+	}
+	return ""
+}
+
+func (x *Component) GetBackSidePanel() string {
+	if x != nil {
+		return x.BackSidePanel
+	}
+	return ""
+}
+
+func (x *Component) GetSidePanel() string {
+	if x != nil {
+		return x.SidePanel
+	}
+	return ""
+}
+
+func (x *Component) GetTopPanel() string {
+	if x != nil {
+		return x.TopPanel
+	}
+	return ""
+}
+
+func (x *Component) GetBottomPanel() string {
+	if x != nil {
+		return x.BottomPanel
+	}
+	return ""
+}
+
+func (x *Component) GetShelvesPanel() string {
+	if x != nil {
+		return x.ShelvesPanel
+	}
+	return ""
+}
+
+func (x *Component) GetPanel_Count() int32 {
+	if x != nil {
+		return x.Panel_Count
+	}
+	return 0
+}
+
+type CuttingResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Item_ID    uint32       `protobuf:"varint,1,opt,name=Item_ID,json=ItemID,proto3" json:"Item_ID,omitempty"`
+	Components []*Component `protobuf:"bytes,2,rep,name=Components,proto3" json:"Components,omitempty"`
+}
+
+func (x *CuttingResult) Reset() {
+	*x = CuttingResult{}
+	mi := &file_material_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CuttingResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CuttingResult) ProtoMessage() {}
+
+func (x *CuttingResult) ProtoReflect() protoreflect.Message {
+	mi := &file_material_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CuttingResult.ProtoReflect.Descriptor instead.
+func (*CuttingResult) Descriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *CuttingResult) GetItem_ID() uint32 {
+	if x != nil {
+		return x.Item_ID
+	}
+	return 0
+}
+
+func (x *CuttingResult) GetComponents() []*Component {
+	if x != nil {
+		return x.Components
+	}
+	return nil
+}
+
+type CuttingResultResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status        CuttingResultResponse_Status `protobuf:"varint,1,opt,name=status,proto3,enum=pb.CuttingResultResponse_Status" json:"status,omitempty"`
+	Message       string                       `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	CuttingResult *CuttingResult               `protobuf:"bytes,3,opt,name=cutting_result,json=cuttingResult,proto3" json:"cutting_result,omitempty"`
+}
+
+func (x *CuttingResultResponse) Reset() {
+	*x = CuttingResultResponse{}
+	mi := &file_material_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CuttingResultResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CuttingResultResponse) ProtoMessage() {}
+
+func (x *CuttingResultResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_material_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CuttingResultResponse.ProtoReflect.Descriptor instead.
+func (*CuttingResultResponse) Descriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *CuttingResultResponse) GetStatus() CuttingResultResponse_Status {
+	if x != nil {
+		return x.Status
+	}
+	return CuttingResultResponse_OK
+}
+
+func (x *CuttingResultResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CuttingResultResponse) GetCuttingResult() *CuttingResult {
+	if x != nil {
+		return x.CuttingResult
+	}
+	return nil
+}
+
+// Payment
+type PaymentResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Item_ID    uint32  `protobuf:"varint,1,opt,name=Item_ID,json=ItemID,proto3" json:"Item_ID,omitempty"`
+	User_Name  string  `protobuf:"bytes,2,opt,name=User_Name,json=UserName,proto3" json:"User_Name,omitempty"`
+	User_Email string  `protobuf:"bytes,3,opt,name=User_Email,json=UserEmail,proto3" json:"User_Email,omitempty"`
+	Amount     float32 `protobuf:"fixed32,4,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Order_ID   string  `protobuf:"bytes,5,opt,name=Order_ID,json=OrderID,proto3" json:"Order_ID,omitempty"`
+}
+
+func (x *PaymentResponse) Reset() {
+	*x = PaymentResponse{}
+	mi := &file_material_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PaymentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PaymentResponse) ProtoMessage() {}
+
+func (x *PaymentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_material_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PaymentResponse.ProtoReflect.Descriptor instead.
+func (*PaymentResponse) Descriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *PaymentResponse) GetItem_ID() uint32 {
+	if x != nil {
+		return x.Item_ID
+	}
+	return 0
+}
+
+func (x *PaymentResponse) GetUser_Name() string {
+	if x != nil {
+		return x.User_Name
+	}
+	return ""
+}
+
+func (x *PaymentResponse) GetUser_Email() string {
+	if x != nil {
+		return x.User_Email
+	}
+	return ""
+}
+
+func (x *PaymentResponse) GetAmount() float32 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *PaymentResponse) GetOrder_ID() string {
+	if x != nil {
+		return x.Order_ID
+	}
+	return ""
+}
+
+type Payment struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	User_ID    uint32  `protobuf:"varint,1,opt,name=User_ID,json=UserID,proto3" json:"User_ID,omitempty"`
+	Payment_ID string  `protobuf:"bytes,2,opt,name=Payment_ID,json=PaymentID,proto3" json:"Payment_ID,omitempty"`
+	Amount     float32 `protobuf:"fixed32,3,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Item_ID    uint32  `protobuf:"varint,4,opt,name=Item_ID,json=ItemID,proto3" json:"Item_ID,omitempty"`
+}
+
+func (x *Payment) Reset() {
+	*x = Payment{}
+	mi := &file_material_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Payment) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Payment) ProtoMessage() {}
+
+func (x *Payment) ProtoReflect() protoreflect.Message {
+	mi := &file_material_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Payment.ProtoReflect.Descriptor instead.
+func (*Payment) Descriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *Payment) GetUser_ID() uint32 {
+	if x != nil {
+		return x.User_ID
+	}
+	return 0
+}
+
+func (x *Payment) GetPayment_ID() string {
+	if x != nil {
+		return x.Payment_ID
+	}
+	return ""
+}
+
+func (x *Payment) GetAmount() float32 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *Payment) GetItem_ID() uint32 {
+	if x != nil {
+		return x.Item_ID
+	}
+	return 0
+}
+
+type PaymentStatusResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status  PaymentStatusResponse_Status `protobuf:"varint,1,opt,name=status,proto3,enum=pb.PaymentStatusResponse_Status" json:"status,omitempty"`
+	Message string                       `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *PaymentStatusResponse) Reset() {
+	*x = PaymentStatusResponse{}
+	mi := &file_material_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PaymentStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PaymentStatusResponse) ProtoMessage() {}
+
+func (x *PaymentStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_material_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PaymentStatusResponse.ProtoReflect.Descriptor instead.
+func (*PaymentStatusResponse) Descriptor() ([]byte, []int) {
+	return file_material_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *PaymentStatusResponse) GetStatus() PaymentStatusResponse_Status {
+	if x != nil {
+		return x.Status
+	}
+	return PaymentStatusResponse_SUCCESS
+}
+
+func (x *PaymentStatusResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_material_proto protoreflect.FileDescriptor
 
 var file_material_proto_rawDesc = []byte{
@@ -1134,7 +1645,69 @@ var file_material_proto_rawDesc = []byte{
 	0x74, 0x61, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61,
 	0x22, 0x1b, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x06, 0x0a, 0x02, 0x4f, 0x4b,
 	0x10, 0x00, 0x12, 0x09, 0x0a, 0x05, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x10, 0x01, 0x42, 0x09, 0x0a,
-	0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x32, 0xa5, 0x04, 0x0a, 0x0f, 0x4d, 0x61, 0x74,
+	0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0x91, 0x02, 0x0a, 0x09, 0x43, 0x6f, 0x6d,
+	0x70, 0x6f, 0x6e, 0x65, 0x6e, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x4d, 0x61, 0x74, 0x65, 0x72, 0x69,
+	0x61, 0x6c, 0x5f, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0a, 0x4d, 0x61, 0x74,
+	0x65, 0x72, 0x69, 0x61, 0x6c, 0x49, 0x44, 0x12, 0x1c, 0x0a, 0x09, 0x44, 0x6f, 0x6f, 0x72, 0x50,
+	0x61, 0x6e, 0x65, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x44, 0x6f, 0x6f, 0x72,
+	0x50, 0x61, 0x6e, 0x65, 0x6c, 0x12, 0x24, 0x0a, 0x0d, 0x42, 0x61, 0x63, 0x6b, 0x53, 0x69, 0x64,
+	0x65, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x42, 0x61,
+	0x63, 0x6b, 0x53, 0x69, 0x64, 0x65, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x12, 0x1c, 0x0a, 0x09, 0x53,
+	0x69, 0x64, 0x65, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
+	0x53, 0x69, 0x64, 0x65, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x54, 0x6f, 0x70,
+	0x50, 0x61, 0x6e, 0x65, 0x6c, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x54, 0x6f, 0x70,
+	0x50, 0x61, 0x6e, 0x65, 0x6c, 0x12, 0x20, 0x0a, 0x0b, 0x42, 0x6f, 0x74, 0x74, 0x6f, 0x6d, 0x50,
+	0x61, 0x6e, 0x65, 0x6c, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x42, 0x6f, 0x74, 0x74,
+	0x6f, 0x6d, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x12, 0x22, 0x0a, 0x0c, 0x53, 0x68, 0x65, 0x6c, 0x76,
+	0x65, 0x73, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x53,
+	0x68, 0x65, 0x6c, 0x76, 0x65, 0x73, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x12, 0x1f, 0x0a, 0x0b, 0x50,
+	0x61, 0x6e, 0x65, 0x6c, 0x5f, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x0a, 0x50, 0x61, 0x6e, 0x65, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x57, 0x0a, 0x0d,
+	0x63, 0x75, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x17, 0x0a,
+	0x07, 0x49, 0x74, 0x65, 0x6d, 0x5f, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06,
+	0x49, 0x74, 0x65, 0x6d, 0x49, 0x44, 0x12, 0x2d, 0x0a, 0x0a, 0x43, 0x6f, 0x6d, 0x70, 0x6f, 0x6e,
+	0x65, 0x6e, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62, 0x2e,
+	0x43, 0x6f, 0x6d, 0x70, 0x6f, 0x6e, 0x65, 0x6e, 0x74, 0x52, 0x0a, 0x43, 0x6f, 0x6d, 0x70, 0x6f,
+	0x6e, 0x65, 0x6e, 0x74, 0x73, 0x22, 0xc2, 0x01, 0x0a, 0x15, 0x43, 0x75, 0x74, 0x74, 0x69, 0x6e,
+	0x67, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x38, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x20, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x75, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x12, 0x38, 0x0a, 0x0e, 0x63, 0x75, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x5f, 0x72,
+	0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x70, 0x62,
+	0x2e, 0x63, 0x75, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x0d,
+	0x63, 0x75, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x1b, 0x0a,
+	0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x06, 0x0a, 0x02, 0x4f, 0x4b, 0x10, 0x00, 0x12,
+	0x09, 0x0a, 0x05, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x10, 0x01, 0x22, 0x99, 0x01, 0x0a, 0x0f, 0x50,
+	0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17,
+	0x0a, 0x07, 0x49, 0x74, 0x65, 0x6d, 0x5f, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52,
+	0x06, 0x49, 0x74, 0x65, 0x6d, 0x49, 0x44, 0x12, 0x1b, 0x0a, 0x09, 0x55, 0x73, 0x65, 0x72, 0x5f,
+	0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x55, 0x73, 0x65, 0x72,
+	0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x55, 0x73, 0x65, 0x72, 0x5f, 0x45, 0x6d, 0x61,
+	0x69, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x55, 0x73, 0x65, 0x72, 0x45, 0x6d,
+	0x61, 0x69, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x02, 0x52, 0x06, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x4f,
+	0x72, 0x64, 0x65, 0x72, 0x5f, 0x49, 0x44, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4f,
+	0x72, 0x64, 0x65, 0x72, 0x49, 0x44, 0x22, 0x72, 0x0a, 0x07, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e,
+	0x74, 0x12, 0x17, 0x0a, 0x07, 0x55, 0x73, 0x65, 0x72, 0x5f, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0d, 0x52, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49, 0x44, 0x12, 0x1d, 0x0a, 0x0a, 0x50, 0x61,
+	0x79, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
+	0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x12, 0x16, 0x0a, 0x06, 0x41, 0x6d, 0x6f,
+	0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x02, 0x52, 0x06, 0x41, 0x6d, 0x6f, 0x75, 0x6e,
+	0x74, 0x12, 0x17, 0x0a, 0x07, 0x49, 0x74, 0x65, 0x6d, 0x5f, 0x49, 0x44, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x0d, 0x52, 0x06, 0x49, 0x74, 0x65, 0x6d, 0x49, 0x44, 0x22, 0x9b, 0x01, 0x0a, 0x15, 0x50,
+	0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x38, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0e, 0x32, 0x20, 0x2e, 0x70, 0x62, 0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e,
+	0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x18,
+	0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x2e, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x12, 0x0b, 0x0a, 0x07, 0x53, 0x55, 0x43, 0x43, 0x45, 0x53, 0x53, 0x10, 0x00, 0x12,
+	0x0a, 0x0a, 0x06, 0x46, 0x41, 0x49, 0x4c, 0x45, 0x44, 0x10, 0x01, 0x12, 0x0b, 0x0a, 0x07, 0x50,
+	0x45, 0x4e, 0x44, 0x49, 0x4e, 0x47, 0x10, 0x02, 0x32, 0xcb, 0x05, 0x0a, 0x0f, 0x4d, 0x61, 0x74,
 	0x65, 0x72, 0x69, 0x61, 0x6c, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x30, 0x0a, 0x10,
 	0x46, 0x69, 0x6e, 0x64, 0x4d, 0x61, 0x74, 0x65, 0x72, 0x69, 0x61, 0x6c, 0x42, 0x79, 0x49, 0x44,
 	0x12, 0x0e, 0x2e, 0x70, 0x62, 0x2e, 0x4d, 0x61, 0x74, 0x65, 0x72, 0x69, 0x61, 0x6c, 0x49, 0x44,
@@ -1169,7 +1742,18 @@ var file_material_proto_rawDesc = []byte{
 	0x72, 0x12, 0x2d, 0x0a, 0x10, 0x46, 0x69, 0x6e, 0x64, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x42,
 	0x79, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0a, 0x2e, 0x70, 0x62, 0x2e, 0x49, 0x74, 0x65, 0x6d, 0x49,
 	0x44, 0x1a, 0x0d, 0x2e, 0x70, 0x62, 0x2e, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74,
-	0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x12, 0x2f, 0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e,
+	0x74, 0x12, 0x09, 0x2e, 0x70, 0x62, 0x2e, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x1a, 0x13, 0x2e, 0x70,
+	0x62, 0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x38, 0x0a, 0x0e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x75, 0x63, 0x63,
+	0x65, 0x73, 0x73, 0x12, 0x0b, 0x2e, 0x70, 0x62, 0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74,
+	0x1a, 0x19, 0x2e, 0x70, 0x62, 0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x10, 0x47,
+	0x65, 0x74, 0x43, 0x75, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12,
+	0x0a, 0x2e, 0x70, 0x62, 0x2e, 0x49, 0x74, 0x65, 0x6d, 0x49, 0x44, 0x1a, 0x19, 0x2e, 0x70, 0x62,
+	0x2e, 0x43, 0x75, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1184,62 +1768,80 @@ func file_material_proto_rawDescGZIP() []byte {
 	return file_material_proto_rawDescData
 }
 
-var file_material_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_material_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_material_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_material_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_material_proto_goTypes = []any{
-	(MaterialResponse_Status)(0), // 0: pb.MaterialResponse.Status
-	(ItemResponse_Status)(0),     // 1: pb.ItemResponse.Status
-	(OrderResponse_Status)(0),    // 2: pb.OrderResponse.Status
-	(*Material)(nil),             // 3: pb.Material
-	(*MaterialResponse)(nil),     // 4: pb.MaterialResponse
-	(*MaterialNoParams)(nil),     // 5: pb.MaterialNoParams
-	(*MaterialList)(nil),         // 6: pb.MaterialList
-	(*MaterialID)(nil),           // 7: pb.MaterialID
-	(*Item)(nil),                 // 8: pb.Item
-	(*ItemResponse)(nil),         // 9: pb.ItemResponse
-	(*ItemID)(nil),               // 10: pb.ItemID
-	(*ItemList)(nil),             // 11: pb.ItemList
-	(*ItemNoParams)(nil),         // 12: pb.ItemNoParams
-	(*Order)(nil),                // 13: pb.Order
-	(*OrderList)(nil),            // 14: pb.OrderList
-	(*OrderResponse)(nil),        // 15: pb.OrderResponse
+	(MaterialResponse_Status)(0),      // 0: pb.MaterialResponse.Status
+	(ItemResponse_Status)(0),          // 1: pb.ItemResponse.Status
+	(OrderResponse_Status)(0),         // 2: pb.OrderResponse.Status
+	(CuttingResultResponse_Status)(0), // 3: pb.CuttingResultResponse.Status
+	(PaymentStatusResponse_Status)(0), // 4: pb.PaymentStatusResponse.Status
+	(*Material)(nil),                  // 5: pb.Material
+	(*MaterialResponse)(nil),          // 6: pb.MaterialResponse
+	(*MaterialNoParams)(nil),          // 7: pb.MaterialNoParams
+	(*MaterialList)(nil),              // 8: pb.MaterialList
+	(*MaterialID)(nil),                // 9: pb.MaterialID
+	(*Item)(nil),                      // 10: pb.Item
+	(*ItemResponse)(nil),              // 11: pb.ItemResponse
+	(*ItemID)(nil),                    // 12: pb.ItemID
+	(*ItemList)(nil),                  // 13: pb.ItemList
+	(*ItemNoParams)(nil),              // 14: pb.ItemNoParams
+	(*Order)(nil),                     // 15: pb.Order
+	(*OrderList)(nil),                 // 16: pb.OrderList
+	(*OrderResponse)(nil),             // 17: pb.OrderResponse
+	(*Component)(nil),                 // 18: pb.Component
+	(*CuttingResult)(nil),             // 19: pb.cuttingResult
+	(*CuttingResultResponse)(nil),     // 20: pb.CuttingResultResponse
+	(*PaymentResponse)(nil),           // 21: pb.PaymentResponse
+	(*Payment)(nil),                   // 22: pb.Payment
+	(*PaymentStatusResponse)(nil),     // 23: pb.PaymentStatusResponse
 }
 var file_material_proto_depIdxs = []int32{
 	0,  // 0: pb.MaterialResponse.status:type_name -> pb.MaterialResponse.Status
-	3,  // 1: pb.MaterialList.Materials:type_name -> pb.Material
+	5,  // 1: pb.MaterialList.Materials:type_name -> pb.Material
 	1,  // 2: pb.ItemResponse.status:type_name -> pb.ItemResponse.Status
-	8,  // 3: pb.ItemList.Items:type_name -> pb.Item
-	13, // 4: pb.OrderList.Orders:type_name -> pb.Order
+	10, // 3: pb.ItemList.Items:type_name -> pb.Item
+	15, // 4: pb.OrderList.Orders:type_name -> pb.Order
 	2,  // 5: pb.OrderResponse.status:type_name -> pb.OrderResponse.Status
-	7,  // 6: pb.MaterialService.FindMaterialByID:input_type -> pb.MaterialID
-	5,  // 7: pb.MaterialService.FindAllMaterial:input_type -> pb.MaterialNoParams
-	8,  // 8: pb.MaterialService.AddItem:input_type -> pb.Item
-	10, // 9: pb.MaterialService.FindItemByID:input_type -> pb.ItemID
-	10, // 10: pb.MaterialService.FindAllItemByUser:input_type -> pb.ItemID
-	12, // 11: pb.MaterialService.FindAllItem:input_type -> pb.ItemNoParams
-	8,  // 12: pb.MaterialService.EditItem:input_type -> pb.Item
-	10, // 13: pb.MaterialService.RemoveItem:input_type -> pb.ItemID
-	13, // 14: pb.MaterialService.PlaceOrder:input_type -> pb.Order
-	12, // 15: pb.MaterialService.OrderHistory:input_type -> pb.ItemNoParams
-	10, // 16: pb.MaterialService.FindOrder:input_type -> pb.ItemID
-	10, // 17: pb.MaterialService.FindOrdersByUser:input_type -> pb.ItemID
-	3,  // 18: pb.MaterialService.FindMaterialByID:output_type -> pb.Material
-	6,  // 19: pb.MaterialService.FindAllMaterial:output_type -> pb.MaterialList
-	9,  // 20: pb.MaterialService.AddItem:output_type -> pb.ItemResponse
-	8,  // 21: pb.MaterialService.FindItemByID:output_type -> pb.Item
-	11, // 22: pb.MaterialService.FindAllItemByUser:output_type -> pb.ItemList
-	11, // 23: pb.MaterialService.FindAllItem:output_type -> pb.ItemList
-	8,  // 24: pb.MaterialService.EditItem:output_type -> pb.Item
-	9,  // 25: pb.MaterialService.RemoveItem:output_type -> pb.ItemResponse
-	15, // 26: pb.MaterialService.PlaceOrder:output_type -> pb.OrderResponse
-	14, // 27: pb.MaterialService.OrderHistory:output_type -> pb.OrderList
-	13, // 28: pb.MaterialService.FindOrder:output_type -> pb.Order
-	14, // 29: pb.MaterialService.FindOrdersByUser:output_type -> pb.OrderList
-	18, // [18:30] is the sub-list for method output_type
-	6,  // [6:18] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	18, // 6: pb.cuttingResult.Components:type_name -> pb.Component
+	3,  // 7: pb.CuttingResultResponse.status:type_name -> pb.CuttingResultResponse.Status
+	19, // 8: pb.CuttingResultResponse.cutting_result:type_name -> pb.cuttingResult
+	4,  // 9: pb.PaymentStatusResponse.status:type_name -> pb.PaymentStatusResponse.Status
+	9,  // 10: pb.MaterialService.FindMaterialByID:input_type -> pb.MaterialID
+	7,  // 11: pb.MaterialService.FindAllMaterial:input_type -> pb.MaterialNoParams
+	10, // 12: pb.MaterialService.AddItem:input_type -> pb.Item
+	12, // 13: pb.MaterialService.FindItemByID:input_type -> pb.ItemID
+	12, // 14: pb.MaterialService.FindAllItemByUser:input_type -> pb.ItemID
+	14, // 15: pb.MaterialService.FindAllItem:input_type -> pb.ItemNoParams
+	10, // 16: pb.MaterialService.EditItem:input_type -> pb.Item
+	12, // 17: pb.MaterialService.RemoveItem:input_type -> pb.ItemID
+	15, // 18: pb.MaterialService.PlaceOrder:input_type -> pb.Order
+	14, // 19: pb.MaterialService.OrderHistory:input_type -> pb.ItemNoParams
+	12, // 20: pb.MaterialService.FindOrder:input_type -> pb.ItemID
+	12, // 21: pb.MaterialService.FindOrdersByUser:input_type -> pb.ItemID
+	15, // 22: pb.MaterialService.CreatePayment:input_type -> pb.Order
+	22, // 23: pb.MaterialService.PaymentSuccess:input_type -> pb.Payment
+	12, // 24: pb.MaterialService.GetCuttingResult:input_type -> pb.ItemID
+	5,  // 25: pb.MaterialService.FindMaterialByID:output_type -> pb.Material
+	8,  // 26: pb.MaterialService.FindAllMaterial:output_type -> pb.MaterialList
+	11, // 27: pb.MaterialService.AddItem:output_type -> pb.ItemResponse
+	10, // 28: pb.MaterialService.FindItemByID:output_type -> pb.Item
+	13, // 29: pb.MaterialService.FindAllItemByUser:output_type -> pb.ItemList
+	13, // 30: pb.MaterialService.FindAllItem:output_type -> pb.ItemList
+	10, // 31: pb.MaterialService.EditItem:output_type -> pb.Item
+	11, // 32: pb.MaterialService.RemoveItem:output_type -> pb.ItemResponse
+	17, // 33: pb.MaterialService.PlaceOrder:output_type -> pb.OrderResponse
+	16, // 34: pb.MaterialService.OrderHistory:output_type -> pb.OrderList
+	15, // 35: pb.MaterialService.FindOrder:output_type -> pb.Order
+	16, // 36: pb.MaterialService.FindOrdersByUser:output_type -> pb.OrderList
+	21, // 37: pb.MaterialService.CreatePayment:output_type -> pb.PaymentResponse
+	23, // 38: pb.MaterialService.PaymentSuccess:output_type -> pb.PaymentStatusResponse
+	20, // 39: pb.MaterialService.GetCuttingResult:output_type -> pb.CuttingResultResponse
+	25, // [25:40] is the sub-list for method output_type
+	10, // [10:25] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_material_proto_init() }
@@ -1264,8 +1866,8 @@ func file_material_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_material_proto_rawDesc,
-			NumEnums:      3,
-			NumMessages:   13,
+			NumEnums:      5,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

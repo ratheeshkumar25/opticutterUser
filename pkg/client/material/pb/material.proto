@@ -23,6 +23,11 @@ service MaterialService {
     rpc OrderHistory(ItemNoParams) returns (OrderList);
     rpc FindOrder(ItemID) returns (Order);
     rpc FindOrdersByUser(ItemID) returns (OrderList);
+
+    //Service to handle the payment and cutting result
+    rpc CreatePayment(Order)returns(PaymentResponse);
+    rpc PaymentSuccess(Payment)returns(PaymentStatusResponse);
+    rpc GetCuttingResult(ItemID) returns (CuttingResultResponse);
 }
 
 // Material messages
@@ -125,4 +130,61 @@ message OrderResponse {
         string data = 4;
     }
 }
+
+//CuttingResult
+message Component{
+    uint32 Material_ID = 1;
+    string DoorPanel = 2;
+    string BackSidePanel = 3;
+    string SidePanel = 4;
+    string TopPanel = 5;
+    string BottomPanel = 6;
+    string ShelvesPanel = 7;
+    int32 Panel_Count = 8;
+}
+
+message cuttingResult {
+    uint32 Item_ID = 1;
+    repeated Component Components = 2;
+}
+
+message CuttingResultResponse {
+    enum Status {
+        OK = 0;
+        ERROR = 1;
+    }
+
+    Status status = 1;
+    string message = 2;
+    cuttingResult cutting_result = 3; 
+}
+
+
+//Payment
+message PaymentResponse {
+    uint32 Item_ID = 1;
+    string User_Name = 2;
+    string User_Email = 3;
+    float Amount = 4;
+    string Order_ID = 5;
+}
+
+message Payment {
+    uint32 User_ID = 1;
+    string Payment_ID = 2;
+    float Amount = 3;
+    uint32 Item_ID = 4;
+}
+
+message PaymentStatusResponse {
+    enum Status {
+        SUCCESS = 0;
+        FAILED = 1;
+        PENDING = 2;
+    }
+
+    Status status = 1;
+    string message = 2;
+}
+
 

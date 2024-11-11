@@ -36,6 +36,10 @@ service  UserService {
     rpc OrderHistory(NoParam) returns (UserOrderList);
     rpc FindOrder(UserItemID) returns (UserOrder);
     rpc FindOrdersByUser(UserItemID) returns (UserOrderList);
+
+    rpc UserCreatePayment(UserOrder) returns(UserPaymentResponse);
+    rpc UserPaymentSuccess(UserPayment) returns(UserPaymentStatusResponse );
+
 }
 
 message NoParam {}
@@ -169,4 +173,31 @@ message UserOrderList {
 
 message UserListResponse {
     repeated Profile Profiles = 1;
+}
+
+//Payment
+message UserPaymentResponse {
+    uint32 Item_ID = 1;
+    string User_Name = 2;
+    string User_Email = 3;
+    float Amount = 4;
+    string Order_ID = 5;
+}
+
+message UserPayment {
+    uint32 User_ID = 1;
+    string Payment_ID = 2;
+    float Amount = 3;
+    uint32 Item_ID = 4;
+}
+
+message UserPaymentStatusResponse {
+    enum Status {
+        SUCCESS = 0;
+        FAILED = 1;
+        PENDING = 2;
+    }
+
+    Status status = 1;
+    string message = 2;
 }

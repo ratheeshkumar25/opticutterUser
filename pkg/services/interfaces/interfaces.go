@@ -35,4 +35,8 @@ type UserServiceInter interface {
 	FindAllOrdersSvc(p *pb.NoParam) (*pb.UserOrderList, error)
 	FindOrderSvc(p *pb.UserItemID) (*pb.UserOrder, error)
 	FindOrdersByUser(p *pb.UserItemID) (*pb.UserOrderList, error)
+
+	//Service to handle payment
+	UserPaymentService(p *pb.UserOrder) (*pb.UserPaymentResponse, error)
+	UserPaymentSuccessService(p *pb.UserPayment) (*pb.UserPaymentStatusResponse, error)
 }
