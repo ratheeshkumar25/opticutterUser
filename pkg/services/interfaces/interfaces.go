@@ -39,4 +39,5 @@ type UserServiceInter interface {
 	//Service to handle payment
 	UserPaymentService(p *pb.UserOrder) (*pb.UserPaymentResponse, error)
 	UserPaymentSuccessService(p *pb.UserPayment) (*pb.UserPaymentStatusResponse, error)
+	GetCuttingResService(p *pb.UserItemID) (*pb.UserCuttingResultResponse, error)
 }

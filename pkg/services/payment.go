@@ -24,22 +24,22 @@ func (u *UserService) UserPaymentService(p *pb.UserOrder) (*pb.UserPaymentRespon
 		return nil, err
 	}
 	return &pb.UserPaymentResponse{
-		Item_ID:   result.Item_ID,
-		Order_ID:  result.Order_ID,
-		Amount:    result.Amount,
-		User_Name: result.User_Name,
+		PaymentId:    result.PaymentId,
+		ClientSecret: result.ClientSecret,
+		OrderId:      result.OrderId,
+		Amount:       result.Amount,
 	}, nil
 }
 
 // UserPaymentSuccessService implements interfaces.UserServiceInter.
 func (u *UserService) UserPaymentSuccessService(p *pb.UserPayment) (*pb.UserPaymentStatusResponse, error) {
 	ctx := context.Background()
-	fmt.Println(p.Item_ID)
+	fmt.Println(p.Order_ID)
 
 	payment := &materialpb.Payment{
 		User_ID:    p.User_ID,
 		Payment_ID: p.Payment_ID,
-		Item_ID:    p.Item_ID,
+		Order_ID:   p.Order_ID,
 		Amount:     p.Amount,
 	}
 
