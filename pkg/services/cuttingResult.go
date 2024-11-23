@@ -21,6 +21,8 @@ func (u *UserService) GetCuttingResService(p *pb.UserItemID) (*pb.UserCuttingRes
 		return nil, err
 	}
 
+	log.Println("cutting result", result)
+
 	// Prepare the response object
 	userCuttingResultResponse := &pb.UserCuttingResultResponse{
 		Status:  pb.UserCuttingResultResponse_OK,

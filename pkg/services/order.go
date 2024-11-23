@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 
 	materialpb "github.com/ratheeshkumar25/opti_cut_userservice/pkg/client/material/pb"
 	pb "github.com/ratheeshkumar25/opti_cut_userservice/pkg/pb"
@@ -71,7 +72,10 @@ func (u *UserService) PlaceOrderService(p *pb.UserOrder) (*pb.Response, error) {
 		Is_Custom:  p.Is_Custom,
 		Amount:     p.Amount,
 		Payment_ID: p.Payment_ID,
+		Email:      p.Email,
 	}
+
+	fmt.Println("materialorder", materialOrder.Email)
 
 	// Call the PlaceOrder method on the MaterialClient
 	response, err := u.MaterialClient.PlaceOrder(ctx, materialOrder)
