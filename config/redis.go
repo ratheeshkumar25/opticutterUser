@@ -3,6 +3,7 @@ package config
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -19,6 +20,8 @@ func SetupRedis(cfg *Config) (*RedisService, error) {
 		Addr: cfg.REDISHOST,
 		DB:   0,
 	})
+
+	fmt.Println("redis-port address", client)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

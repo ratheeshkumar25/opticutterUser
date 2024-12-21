@@ -123,7 +123,7 @@ func (u *UserService) VerificationService(p *pb.OTP) (*pb.Response, error) {
 			Payload: &pb.Response_Error{Error: err.Error()},
 		}, errors.New("unable to create user")
 	}
-	log.Printf("User created with ID: %v", userID)
+	log.Printf("user created with ID: %v", userID)
 
 	return &pb.Response{
 		Status:  pb.Response_OK,
@@ -164,7 +164,7 @@ func (u *UserService) LoginService(p *pb.Login) (*pb.Response, error) {
 	}
 	return &pb.Response{
 		Status:  pb.Response_OK,
-		Message: "Login successful",
+		Message: "login successful",
 		Payload: &pb.Response_Data{Data: jwtToken},
 	}, nil
 

@@ -12,7 +12,7 @@ import (
 
 // ClientDial method connects to the service to the materialservice client
 func ClientDial(cfg config.Config) (pb.MaterialServiceClient, error) {
-	grpcAddr := fmt.Sprintf("localhost:%s", cfg.MateialPort)
+	grpcAddr := fmt.Sprintf("material-service:%s", cfg.MateialPort)
 	grpc, err := grpc.NewClient(grpcAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Printf("Error dialing to grpc to client : %s", err.Error())
