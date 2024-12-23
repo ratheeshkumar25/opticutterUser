@@ -13,8 +13,4 @@ type UserRepoInter interface {
 	FindAddress(userID uint) (*model.Address, error)
 	GetAllAddresses(userID uint) (*[]model.Address, error)
 	RemoveAddress(addressID, userID uint) error
-
-	// FindorCreateUserByGoogleID(googleID, email, name, accessToken, refreshToken, tokenExpiry string) (*model.GoogleSignupdetailResponse, error)
-	// GetUserGoogleDetailsByID(userID string) (*model.GoogleUserDetails, error)
-	// UpdateUserGoogleToken(googleID, accessToken, refreshToken, tokenExpiry string) error
 }
