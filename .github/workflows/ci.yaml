@@ -23,7 +23,7 @@ jobs:
       with:
         go-version: 1.23.1  # Match your Go version
 
-    # Run unit tests
+    # Run unit tests files
     - name: Run Unit Tests
       run: |
         go test ./... -v
@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # Create .env file using GitHub secrets
+    # Create .env file using GitHub secrets variables- because of .env file secret credetials to be hide from repo
     - name: Create .env file
       run: |
         echo "JWTKEY=${{ secrets.JWTKEY }}" >> .env
