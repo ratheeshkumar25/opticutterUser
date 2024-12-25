@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN  go build -o userservice ./cmd
+RUN go build -o userservice ./cmd
 
 FROM alpine:3.18
 
@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY --from=builder /app/userservice .
 
-COPY ./cmd/.env /app/
+COPY .env /app/
 
 RUN ls -la /app
 
